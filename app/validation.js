@@ -61,6 +61,8 @@ document.getElementById('register_form').addEventListener('submit', function(eve
         document.getElementById('email_error').textContent = "";
     }
 
+    //Falta comprobar nombreUsuario que no exista ya y que las dos contraseñas al registrarse coincidan
+    
     // Si alguna validación falla, se previene el envío del formulario
     if (!valid) {
         event.preventDefault();
