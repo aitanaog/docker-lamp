@@ -22,10 +22,10 @@ document.getElementById('register_form').addEventListener('submit', function(eve
         document.getElementById('apellidos_error').textContent = "";
     }
 
-    // Validación de DNI (formato 11111111-Z y validación de letra)
+    // Validación de DNI (formato 11111111Z y validación de letra)
     const dni = document.getElementById('dni').value;
-    const dniRegex = /^\d{8}-[A-Z]$/;
-    if (!dniRegex.test(dni) || !validarDNILetra(dni)) {
+    const dniValido = /^\d{8}[A-Z]$/;
+    if (!dniValido.test(dni) || !validarDNILetra(dni)) {
         valid = false;
         document.getElementById('dni_error').textContent = "El DNI no es válido o la letra no corresponde.";
     } else {
@@ -34,8 +34,8 @@ document.getElementById('register_form').addEventListener('submit', function(eve
 
     // Validación de teléfono (solo 9 dígitos)
     const telefono = document.getElementById('telefono').value;
-    const telefonoRegex = /^\d{9}$/;
-    if (!telefonoRegex.test(telefono)) {
+    const telefonoValido = /^\d{9}$/;
+    if (!telefonoValido.test(telefono)) {
         valid = false;
         document.getElementById('telefono_error').textContent = "El teléfono debe contener 9 dígitos.";
     } else {
@@ -53,8 +53,8 @@ document.getElementById('register_form').addEventListener('submit', function(eve
 
     // Validación de email (formato estándar de email)
     const email = document.getElementById('email').value;
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailRegex.test(email)) {
+    const emailValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailValido.test(email)) {
         valid = false;
         document.getElementById('email_error').textContent = "El formato de email no es válido.";
     } else {
