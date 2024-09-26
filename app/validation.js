@@ -5,8 +5,8 @@ document.getElementById('register_form').addEventListener('submit', function(eve
 
     // Validación del nombre (solo texto)
     const nombre = document.getElementById('nombre').value;
-    const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-    if (!nombreRegex.test(nombre)) {
+    const nombreValido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!nombreValido.test(nombre)) {
         valid = false;
         document.getElementById('nombre_error').textContent = "El nombre solo puede contener letras.";
     } else {
