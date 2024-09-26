@@ -15,7 +15,7 @@ document.getElementById('register_form').addEventListener('submit', function(eve
 
     // Validación de apellidos (solo texto)
     const apellidos = document.getElementById('apellidos').value;
-    if (!nombreRegex.test(apellidos)) {
+    if (!nombreValido.test(apellidos)) {
         valid = false;
         document.getElementById('apellidos_error').textContent = "Los apellidos solo pueden contener letras.";
     } else {
