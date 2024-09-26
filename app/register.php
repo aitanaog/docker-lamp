@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">  /*etiqueta html inicia el documento HTML y especifica que el lenguaje es español 
+<html lang="es">  
 <head>
+	
     <!--<meta charset="UTF-8">  									
     <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>Registro de Usuario</title>
@@ -8,6 +9,13 @@
     <script defer src="validation.js"></script> <!-- JavaScript externo -->
 </head>
 <body>
+	<!-- Crear un menú de navegación -->
+  	<nav>
+  	<ul style="list-style-type: none; padding: 0;">
+  	<li style="display: inline; margin-right: 15px;"><a href="index.php">Inicio</a></li>
+  	<li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>
+  	</ul>
+  	</nav>
     <h2>Registro de Usuario</h2>
     <form id="register_form" action="process_register.php" method="POST">               <!--contenedor que agrupa todos los campos de entrada (inputs) del formulario. Cuando el formulario es enviado, los datos se enviarán al archivo PHP process_register.php para ser procesados, El método POST es utilizado para enviar los datos de forma segura al servidor. A diferencia del método GET, los datos no se ven en la URL.-->
         <!-- Nombre -->
