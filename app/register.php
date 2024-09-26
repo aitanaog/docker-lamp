@@ -53,6 +53,24 @@
         <input type="email" id="email" name="email" required>
         <span id="email_error" class="error"></span>
         <br>
+	
+        <!-- Nombre de Usuario -->
+        <label for="nombreUsuario">NombreUsuario:</label>
+        <input type="text" id="nombreUsuario" name="nombreUsuario" required>    			<!-- required: El campo es obligatorio; el formulario no se puede enviar si está vacío.-->
+        <span id="nombreUsuario_error" class="error"></span>
+        <br>
+
+	<!-- Contrasenna -->
+        <label for="Contrasenna">Contrasenna:</label>
+        <input type="text" id="Contrasenna" name="Contrasenna" required>    			<!-- required: El campo es obligatorio; el formulario no se puede enviar si está vacío.-->
+        <span id="Contrasenna_error" class="error"></span>
+        <br>
+
+	<!-- Repetir Contrasenna -->
+        <label for="Contrasenna2">Contrasenna2:</label>
+        <input type="text" id="Contrasenna2" name="Contrasenna2" required>    			<!-- required: El campo es obligatorio; el formulario no se puede enviar si está vacío.-->
+        <span id="Contrasenna2_error" class="error"></span>
+        <br>
 
         <!-- Botón de envío -->
         <button type="submit" id="register_submit">Registrarse</button>
