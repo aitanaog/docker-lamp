@@ -4,7 +4,10 @@
   echo '<nav>';
   echo '<ul style="list-style-type: none; padding: 0;">';
   echo '<li style="display: inline; margin-right: 15px;"><a href="register.php">Página de registro</a></li>';
-  echo '<li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>'; // Puedes añadir más elementos de menú aquí
+  echo '<li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>'; 
+  echo '<li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir cancion</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar cancion</a></li>';
   echo '</ul>';
   echo '</nav>';
 
