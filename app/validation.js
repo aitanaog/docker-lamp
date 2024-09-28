@@ -24,7 +24,7 @@ document.getElementById('register_form').addEventListener('submit', function(eve
 
     // Validación de DNI (formato 11111111Z y validación de letra)
     const dni = document.getElementById('dni').value;
-    const dniValido = /^\d{8}[A-Z]$/;
+    const dniValido = /^\d{8}-[A-Z]$/;
     if (!dniValido.test(dni) || !validarDNILetra(dni)) {
         valid = false;
         document.getElementById('dni_error').textContent = "El DNI no es válido o la letra no corresponde.";
@@ -61,7 +61,16 @@ document.getElementById('register_form').addEventListener('submit', function(eve
         document.getElementById('email_error').textContent = "";
     }
 
-    //Falta comprobar nombreUsuario que no exista ya y que las dos contraseñas al registrarse coincidan
+
+    // Validar que las contraseñas coincidan
+    const contrasenna=document.getElementById('contrasenna').value;
+    const contrasenna2= document.getElementById('contrasenna2').value;
+    
+    if (contrasenna === contrasenna2) {
+    } else {
+        mensaje.textContent = "Las contraseñas no coinciden.";
+    }
+    
     
     // Si alguna validación falla, se previene el envío del formulario
     if (!valid) {
@@ -73,7 +82,7 @@ document.getElementById('register_form').addEventListener('submit', function(eve
 function validarDNILetra(dni) {
     const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
     const numero = parseInt(dni.substring(0, 8));
-    const letra = dni.charAt(9);
+    const letra = dni.charAt(8);
     const letraCorrecta = letras[numero % 23];
     return letra === letraCorrecta;
 }
