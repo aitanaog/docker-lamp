@@ -23,14 +23,28 @@ document.getElementById('register_form').addEventListener('submit', function(eve
     }
 
     // Validación de DNI (formato 11111111Z y validación de letra)
-    const dni = document.getElementById('dni').value;
-    const dniValido = /^\d{8}-[A-Z]$/;
-    if (!dniValido.test(dni) || !validarDNILetra(dni)) {
-        valid = false;
-        document.getElementById('dni_error').textContent = "El DNI no es válido o la letra no corresponde.";
-    } else {
-        document.getElementById('dni_error').textContent = "";
-    }
+	const dni = document.getElementById('dni').value;
+	const dniValido = /^\d{8}-[A-Z]$/; // Patrón ajustado para permitir el guion.
+	if (!dniValido.test(dni) || !validarDNILetra(dni)) {
+    		valid = false;
+    		document.getElementById('dni_error').textContent = "El DNI no es válido o la letra no corresponde.";
+	} else {
+    		document.getElementById('dni_error').textContent = "";
+	}
+
+	// Función para validar la letra del DNI
+	function validarDNILetra(dni) {
+    	const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+    
+    	// Eliminar el guion del DNI antes de calcular la letra
+    	const numero = parseInt(dni.substring(0, 8)); // Los primeros 8 caracteres son el número
+    	const letra = dni.charAt(9); // El décimo carácter (después del guion) es la letra
+
+    	const letraCorrecta = letras[numero % 23]; // Calculamos la letra correcta
+
+    	return letra === letraCorrecta; // Comparamos la letra
+	}
+
 
     // Validación de teléfono (solo 9 dígitos)
     const telefono = document.getElementById('telefono').value;
@@ -77,13 +91,5 @@ document.getElementById('register_form').addEventListener('submit', function(eve
         event.preventDefault();
     }
 });
-
-// Función para validar la letra del DNI
-function validarDNILetra(dni) {
-    const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    const numero = parseInt(dni.substring(0, 8));
-    const letra = dni.charAt(8);
-    const letraCorrecta = letras[numero % 23];
-    return letra === letraCorrecta;
 }
 

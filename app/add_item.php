@@ -7,7 +7,7 @@
   	<li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>
   	</ul>
   	</nav>
-    <h2>Registro de Usuario</h2>
+    <h2>Añadir Canción</h2>
     <form id="item_add_form" action="process_add_item.php" method="POST">      
              
         <!-- Nombre -->

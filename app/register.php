@@ -17,7 +17,8 @@
   	</ul>
   	</nav>
     <h2>Registro de Usuario</h2>
-    <form id="register_form" action="process_register.php" method="POST">               <!--contenedor que agrupa todos los campos de entrada (inputs) del formulario. Cuando el formulario es enviado, los datos se enviarán al archivo PHP process_register.php para ser procesados, El método POST es utilizado para enviar los datos de forma segura al servidor. A diferencia del método GET, los datos no se ven en la URL.-->
+    <form id="register_form" action="process_register.php" method="POST">               
+    
         <!-- Nombre -->
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>    			<!-- required: El campo es obligatorio; el formulario no se puede enviar si está vacío.-->

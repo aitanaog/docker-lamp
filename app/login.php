@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="styles.css"> <!-- CSS externo -->
-    <script defer src="validation.js"></script> <!-- JavaScript externo -->
+
 </head>
 <body>
 	<!-- Crear un menú de navegación -->
