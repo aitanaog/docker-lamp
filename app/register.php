@@ -21,37 +21,37 @@
     
         <!-- Nombre -->
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>    			<!-- required: El campo es obligatorio; el formulario no se puede enviar si está vacío.-->
+        <input type="text" id="nombre" name="nombre" placeholder="Ejemp. Juan" required>
         <span id="nombre_error" class="error"></span>
         <br>
 
         <!-- Apellidos -->
         <label for="apellidos">Apellidos:</label>
-        <input type="text" id="apellidos" name="apellidos" required>
+        <input type="text" id="apellidos" name="apellidos" placeholder="Ejemp. Perez" required>
         <span id="apellidos_error" class="error"></span>
         <br>
 
         <!-- DNI -->
         <label for="dni">DNI:</label>
-        <input type="text" id="dni" name="dni" pattern="\d{8}-[A-Z]" required>		<!--utiliza una expresión regular para exigir que el DNI siga el formato-->
+        <input type="text" id="dni" name="dni" pattern="\d{8}-[A-Z]"placeholder="Ejemp. 16207982-Z" required>		<!--utiliza una expresión regular para exigir que el DNI siga el formato-->
         <span id="dni_error" class="error"></span>
         <br>
 
         <!-- Teléfono -->
         <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" pattern="\d{9}" required>
+        <input type="tel" id="telefono" name="telefono" pattern="\d{9}" placeholder="Ejemp. 666 55 44 33" required>
         <span id="telefono_error" class="error"></span>
         <br>
 
         <!-- Fecha de Nacimiento -->
         <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Ejemp. 1999-09-14" required>
         <span id="fecha_nacimiento_error" class="error"></span>
         <br>
 
         <!-- Email -->
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" placeholder="Ejemp. Juanperez@gmail.com" required>
         <span id="email_error" class="error"></span>
         <br>
 

@@ -8,6 +8,7 @@
   echo '<li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>';
   echo '<li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir cancion</a></li>';
   echo '<li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar cancion</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="modify_item.php">Modificar cancion</a></li>';
   echo '</ul>';
   echo '</nav>';
 
