@@ -26,14 +26,14 @@
 
 	
 	//Verificar si email ya existe
-	$email_query = mysqli_query($conn, "SELECT * FROM usuarios WHERE email='$email");
+	$email_query = mysqli_query($conn, "SELECT * FROM usuarios WHERE email='$email'");
 	if (mysqli_num_rows($email_query) > 0) {
     		die("Este email ya está registrado.");
 	}
 
 	// Insertar los datos en la base de datos, FALTA ALGÚN METODO PARA NO METER LA CONTRASEÑA TAL CUAL
-	$sql = "INSERT INTO usuarios (nombreUsuariuo, nombre, apellidos, dni, telefono, fecha_nacimiento, email)
-        VALUES ('$nombreUsuario','$nombre', '$apellidos', '$dni', '$telefono', '$fecha_nacimiento', '$email','$hashed_password')";
+	$sql = "INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email, contrasenna)
+        VALUES ('$nombre', '$apellidos', '$dni', '$telefono', '$fecha_nacimiento', '$email','$hashed_password')";
 
 	if (mysqli_query($conn, $sql)) {
     		echo "Registro exitoso.";
