@@ -10,33 +10,55 @@ echo '<li style="display: inline; margin-right: 15px;"><a href="delete_item.php"
 echo '</ul>';
 echo '</nav>';
 
-// Conexión a la base de datos
-$hostname = "db";  // Cambia si es necesario
-$username = "admin";  // Cambia si es necesario
-$password = "test";  // Cambia si es necesario
-$db = "database";  // Cambia si es necesario
-
-$conn = mysqli_connect($hostname, $username, $password, $db);
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-}
-
 // Mostrar mensajes de estado
 if (isset($_GET['msg'])) {
     if ($_GET['msg'] == 'success') {
         echo "<p style='color: green;'>Canción modificada con éxito.</p>";
     } elseif ($_GET['msg'] == 'error') {
-        echo "<p style='color: red;'>Error al modificar la canción.</p>";
+        echo "<p style='color: red;'>Error al modificar la canción: " . htmlspecialchars($_GET['error']) . "</p>";
     } elseif ($_GET['msg'] == 'no_id') {
         echo "<p style='color: orange;'>No se recibió el ID de la canción.</p>";
     }
 }
 
-// Consulta para obtener las canciones
-$query = mysqli_query($conn, "SELECT * FROM canciones") or die (mysqli_error($conn));
+// Conexión a la base de datos
+$hostname = "db"; // Cambia por tu hostname
+$username = "admin"; // Cambia por tu username
+$password = "test"; // Cambia por tu password
+$db = "database"; // Cambia por tu database name
 
+$conn = mysqli_connect($hostname, $username, $password, $db);
+if ($conn->connect_error) {
+    		die("Database connection failed: " . $conn->connect_error);
+}
 
-// Mostrar los resultados en una tabla
+// Obtener la lista de canciones
+$sql = "SELECT * FROM canciones";
+$query = $conn->query($sql);
+
+if ($query === false) {
+    die("Error en la consulta: " . $conn->error);
+}
+
+// Estilos CSS para el diseño de dos columnas
+echo '<style>
+.container {
+    display: flex;
+}
+.table-container {
+    flex: 1;
+}
+.form-container {
+    flex: 1;
+    padding-left: 20px;
+}
+</style>';
+
+// Contenedor principal
+echo '<div class="container">';
+
+// Contenedor de la tabla
+echo '<div class="table-container">';
 echo '<h2>Lista de Canciones</h2>';
 echo '<table border="1">
         <tr>
@@ -46,8 +68,7 @@ echo '<table border="1">
             <th>Acciones</th> <!-- Nueva columna para acciones -->
         </tr>';
 
-
-/// Iterar sobre los resultados
+// Iterar sobre los resultados
 while ($row = $query->fetch_assoc()) {
     echo "<tr>
             <td>{$row['id']}</td>
@@ -62,26 +83,28 @@ while ($row = $query->fetch_assoc()) {
           </tr>";
 }
 echo '</table>';
+echo '</div>'; // Cerrar contenedor de la tabla
 
+// Contenedor del formulario
+echo '<div class="form-container">';
 
 // Mostrar formulario de modificación si se ha seleccionado una canción
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    
 
     // Buscar la canción seleccionada en la base de datos
     $sql = "SELECT * FROM canciones WHERE id = $id";
-    $selected_song = $conn->query($sql);
+    $result = $conn->query($sql);
 
-    if ($selected_song === false) {
+    if ($result === false) {
         die("Error en la consulta: " . $conn->error);
     }
 
-    if ($selected_song->num_rows > 0) {
-        $selected_song = $selected_song->fetch_assoc();
+    if ($result->num_rows > 0) {
+        $selected_song = $result->fetch_assoc();
         ?>
         <h2>Modificar Canción</h2>
-        <form method="POST" action="modify_item.php">
+        <form method="POST" action="process_modify_item.php">
             <input type="hidden" name="id" value="<?php echo $selected_song['id']; ?>">
             <label for="nombre_cancion">Nombre de la Canción:</label>
             <input type="text" id="nombre_cancion" name="nombre_cancion" value="<?php echo $selected_song['nombre_cancion']; ?>" required>
@@ -111,31 +134,8 @@ if (isset($_GET['id'])) {
     }
 }
 
-// Procesar la modificación de la canción
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST["id"];
-    $nombre_cancion = $_POST["nombre_cancion"];
-    $cantante = $_POST["cantante"];
-    $fecha_lanzamiento = $_POST["fecha_lanzamiento"];
-    $estilo = $_POST["estilo"];
-    $album = $_POST["album"];
+echo '</div>'; // Cerrar contenedor del formulario
+echo '</div>'; // Cerrar contenedor principal
 
-    // Aquí deberías actualizar la base de datos con los nuevos datos
-    // Por ejemplo:
-    // $sql = "UPDATE canciones SET nombre_cancion='$nombre_cancion', cantante='$cantante', fecha_lanzamiento='$fecha_lanzamiento', estilo='$estilo', album='$album' WHERE id=$id";
-    // if ($conn->query($sql) === TRUE) {
-    //     header("Location: modify_item.php?msg=success");
-    // } else {
-    //     header("Location: modify_item.php?msg=error");
-    // }
-
-    // Simulación de actualización exitosa
-    echo "<script>
-        if (confirm('¿Está seguro de que desea realizar estos cambios?')) {
-            window.location.href = 'modify_item.php?msg=success';
-        } else {
-            window.location.href = 'modify_item.php?msg=error';
-        }
-    </script>";
-}
+$conn->close();
 ?>

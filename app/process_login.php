@@ -23,7 +23,7 @@
 
     		// Verificar la contraseña ingresada con el hash almacenado
     		if (password_verify($contrasenna, $hashed_password)) {
-        		header("Location: Inicio.php"); // Cambia 'dashboard.php' por la página a la que deseas redirigir
+        		header("Location: inicio.php"); // Cambia 'dashboard.php' por la página a la que deseas redirigir
         		exit(); // Importante: detiene la ejecución para evitar que se siga ejecutando el script
     		} else {
         	die("La contraseña no coincide.");

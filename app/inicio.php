@@ -17,7 +17,9 @@
   	<li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir cancion</a></li>
   	<li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar cancion</a></li>
   	<li style="display: inline; margin-right: 15px;"><a href="index.php">Salir</a></li>
-  	</ul>
+  	<li style="display: inline; margin-right: 15px;"><a href="modify_item.php">Modificar cancion</a></li>
+  	
+</ul>
   	</nav>
 
 	<h2>Inicio</h2>
