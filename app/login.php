@@ -1,14 +1,23 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">  
 <head>
-	
-    <!--<meta charset="UTF-8">  									
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-    <title>Inicio de Sesión</title>
+    <meta charset="UTF-8">  									
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
     <link rel="stylesheet" href="styles.css"> <!-- CSS externo -->
-
 </head>
 <body>
+    <?php
+    if (isset($_SESSION['error_message'])) {
+        echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
+        unset($_SESSION['error_message']); // Eliminar el mensaje de la sesión después de mostrarlo
+    }	
+    ?>
 	<!-- Crear un menú de navegación -->
   	<nav>
   	<ul style="list-style-type: none; padding: 0;">
@@ -26,7 +35,7 @@
 
         <!-- Contraseña -->
         <label for="Contrasenna">Contraseña:</label>
-        <input type="text" id="Contrasenna" name="Contrasenna" required>
+        <input type="password" id="Contrasenna" name="Contrasenna" required>
         <span id="Contrasenna_error" class="error"></span>
         <br>
 

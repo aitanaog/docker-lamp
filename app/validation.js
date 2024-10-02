@@ -1,7 +1,9 @@
-//HACER TODAS LAS VALIDACIONES DE LOS DATOS EN ESTE FICHERO
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('register_form').addEventListener('submit', function(event) {   
-        let valid = true;
+
+
+	//////////////////////////////////////////////////VALIDACIONES DEL REGISTRO////////////////////////////////////////////////////
+	document.addEventListener('DOMContentLoaded', function() {
+    		document.getElementById('register_form').addEventListener('submit', function(event) {   
+       		 let valid = true;
 
         // Validación del nombre (solo texto)
         const nombre = document.getElementById('nombre').value;
@@ -80,8 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const contrasenna=document.getElementById('contrasenna').value;
         const contrasenna2= document.getElementById('contrasenna2').value;
         
-        if (contrasenna === contrasenna2) {
-        } else {
+        if (contrasenna !== contrasenna2) {
             mensaje.textContent = "Las contraseñas no coinciden.";
         }
         
@@ -91,6 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
         }
     });
+    
+    //////////////////////////////////////////////////VALIDACIONES DE LA CANCION////////////////////////////////////////////////////
     document.getElementById('modify_item').addEventListener('submit', function(event) {   
         let valid = true;
 

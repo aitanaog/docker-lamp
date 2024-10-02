@@ -1,4 +1,7 @@
 <?php
+	// Iniciar la sesión
+	session_start();
+	
 	// Conectar a la base de datos
 	$hostname = "db"; // Cambia por tu hostname
 	$username = "admin"; // Cambia por tu username
@@ -12,7 +15,7 @@
 
 	// Recoger los datos del formulario
 	$email = mysqli_real_escape_string($conn, $_POST['email']);
-	$contrasenna = $_POST['contrasenna']; // No necesitas usar mysqli_real_escape_string para la contraseña
+	$contrasenna = $_POST['contrasenna']; 
 
 	// Verificar si el email ya existe
 	$email_query = mysqli_query($conn, "SELECT contrasenna FROM usuarios WHERE email='$email'");
@@ -23,13 +26,18 @@
 
     		// Verificar la contraseña ingresada con el hash almacenado
     		if (password_verify($contrasenna, $hashed_password)) {
-        		header("Location: inicio.php"); // Cambia 'dashboard.php' por la página a la que deseas redirigir
-        		exit(); // Importante: detiene la ejecución para evitar que se siga ejecutando el script
+    			$_SESSION['user_email'] = $email;		// Almacenamos el email de usuario en la sesión
+        		header("Location: inicio.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir
+        		exit(); 					// Importante: detiene la ejecución para evitar que se siga ejecutando el script
     		} else {
-        	die("La contraseña no coincide.");
+        	$_SESSION['error_message'] ="La contraseña no coincide.";
+        	header("Location: login.php");
+    		exit();	
    		}
 	} else {
-   	 die("El email no existe.");
+   	 	$_SESSION['error_message'] ="El email no existe.";
+   	     	header("Location: login.php");
+    		exit();	
 	}
 
 	// Cerrar la conexión

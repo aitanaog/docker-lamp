@@ -1,6 +1,9 @@
 <?php
 	// process_add_item.php
 
+	// Iniciar la sesión
+	session_start();
+	
 	// Conectar a la base de datos
 	$hostname = "db"; // Cambia por tu hostname
 	$username = "admin"; // Cambia por tu username
@@ -17,17 +20,19 @@
 	$cantante = mysqli_real_escape_string($conn, $_POST['cantante']);
 	$album = mysqli_real_escape_string($conn, $_POST['album']);
 	$genero = mysqli_real_escape_string($conn, $_POST['genero']);
-	$fecha_lanzamiento = mysqli_real_escape_string($conn, $_POST['fecha_lanzamiento ']);
+	$fecha_lanzamiento = mysqli_real_escape_string($conn, $_POST['fecha_lanzamiento']);
 
 	
 	//Verificar si cancion ya existe
-	$nombre_query = mysqli_query($conn, "SELECT * FROM canciones WHERE nombre='$nombre");
-	if (mysqli_num_rows($nombre_query) > 0) {
-    		die("Esta canción ya está en la lista.");
+	$nombre_query = mysqli_query($conn, "SELECT * FROM canciones WHERE nombre_cancion='$nombre'");
+	if (mysqli_num_rows($nombre_query) > 0){
+    		$_SESSION['error_message'] ="Esta canción ya está en la lista.";
+    		header("Location:add_item.php"); 		
+        	exit(); 
 	}
 
 	// Insertar los datos en la base de datos
-	$sql = "INSERT INTO canciones (nombre, cantante, genero, album, fecha_lanzamiento)
+	$sql = "INSERT INTO canciones (nombre_cancion, cantante, genero_musical, album, fecha_lanzamiento)
         VALUES ('$nombre','$cantante', '$album', '$genero', '$fecha_lanzamiento')";
 
 	if (mysqli_query($conn, $sql)) {

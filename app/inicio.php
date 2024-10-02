@@ -16,8 +16,9 @@
   	<li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>
   	<li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir cancion</a></li>
   	<li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar cancion</a></li>
-  	<li style="display: inline; margin-right: 15px;"><a href="index.php">Salir</a></li>
+  	<li style="display: inline; margin-right: 15px;"><a href="logout.php">Cerrar sesión</a></li>
   	<li style="display: inline; margin-right: 15px;"><a href="modify_item.php">Modificar cancion</a></li>
+  	<li style="display: inline; margin-right: 15px;"><a href="modify_user.php">Modificar usuario</a></li>
   	
 </ul>
   	</nav>
