@@ -75,9 +75,13 @@ echo '<div class="container">';
 
 	$fields = [
     		'nombre' => 'Nombre',
+			'apellidos' => 'Apellidos',
     		'email' => 'Email',
-    		'telefono' => 'Teléfono',
-    		'direccion' => 'Dirección'
+    		'dni' => 'Dni',
+			'telefono' => 'Telefono',
+			'fecha_nacimiento' => 'Fecha_Nacimiento',
+			'email' => 'Email'
+			
 	];
 
 	foreach ($fields as $field => $label) {

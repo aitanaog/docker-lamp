@@ -19,6 +19,7 @@
 
 	// Verificar si el email ya existe
 	$email_query = mysqli_query($conn, "SELECT contrasenna FROM usuarios WHERE email='$email'");
+	$id = mysqli_query($conn, "SELECT id FROM usuarios WHERE email='$email'");
 	if (mysqli_num_rows($email_query) > 0) {
    		 // Obtener el hash de la contraseña del usuario
     		$fila = mysqli_fetch_assoc($email_query);
@@ -27,7 +28,8 @@
     		// Verificar la contraseña ingresada con el hash almacenado
     		if (password_verify($contrasenna, $hashed_password)) {
     			$_SESSION['user_email'] = $email;		// Almacenamos el email de usuario en la sesión
-        		header("Location: inicio.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir
+        		$_SESSION['id'] = $id;
+				header("Location: inicio.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir
         		exit(); 					// Importante: detiene la ejecución para evitar que se siga ejecutando el script
     		} else {
         	$_SESSION['error_message'] ="La contraseña no coincide.";
