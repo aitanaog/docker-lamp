@@ -1,4 +1,5 @@
 <?php
+
 // Crear un menú de navegación
 echo '<nav>';
 echo '<ul style="list-style-type: none; padding: 0;">';
@@ -103,8 +104,16 @@ if (isset($_GET['id'])) {
     if ($result->num_rows > 0) {
         $selected_song = $result->fetch_assoc();
         ?>
-        <h2>Modificar Canción</h2>
-        <form method="POST" action="process_modify_item.php">
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Modificar Canción</title>
+            <script src="validation.js" defer></script>
+        </head>
+        <body>
+        <form id="modify_item" method="POST" action="process_modify_item.php">
             <input type="hidden" name="id" value="<?php echo $selected_song['id']; ?>">
             <label for="nombre_cancion">Nombre de la Canción:</label>
             <input type="text" id="nombre_cancion" name="nombre_cancion" value="<?php echo $selected_song['nombre_cancion']; ?>" required>
