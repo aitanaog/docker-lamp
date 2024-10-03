@@ -1,4 +1,7 @@
 <?php
+echo '<head>';
+  echo '  <link rel="stylesheet" href="../css/styles.css">';
+    echo '</head>';
 // Crear un menú de navegación
 echo '<nav>';
 echo '<ul style="list-style-type: none; padding: 0;">';
@@ -7,6 +10,7 @@ echo '<li style="display: inline; margin-right: 15px;"><a href="login.php">Log i
 echo '<li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>';
 echo '<li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir canción</a></li>';
 echo '<li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar canción</a></li>';
+echo '<li style="display: inline; margin-right: 15px;"><a href="modify_item.php">Modificar canción</a></li>';
 echo '</ul>';
 echo '</nav>';
 

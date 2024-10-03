@@ -1,15 +1,21 @@
 <?php
 
+echo '<head>';
+  echo '  <link rel="stylesheet" href="../css/styles.css">';
+    echo '</head>';
+    
 // Crear un menú de navegación
-echo '<nav>';
-echo '<ul style="list-style-type: none; padding: 0;">';
-echo '<li style="display: inline; margin-right: 15px;"><a href="register.php">Página de registro</a></li>';
-echo '<li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>'; 
-echo '<li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>';
-echo '<li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir canción</a></li>';
-echo '<li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar canción</a></li>';
-echo '</ul>';
-echo '</nav>';
+  echo '<nav>';
+  echo '<ul style="list-style-type: none; padding: 0;">';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/register.php">Página de registro</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/login.php">Log in</a></li>'; 
+  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/items.php">Mostrar playlist</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/add_item.php">Añadir cancion</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/delete_item.php">Eliminar cancion</a></li>';
+  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/modify_item.php">Modificar cancion</a></li>';
+  echo '</ul>';
+  echo '</nav>';
+
 
 // Mostrar mensajes de estado
 if (isset($_GET['msg'])) {
@@ -40,20 +46,6 @@ $query = $conn->query($sql);
 if ($query === false) {
     die("Error en la consulta: " . $conn->error);
 }
-
-// Estilos CSS para el diseño de dos columnas
-echo '<style>
-.container {
-    display: flex;
-}
-.table-container {
-    flex: 1;
-}
-.form-container {
-    flex: 1;
-    padding-left: 20px;
-}
-</style>';
 
 // Contenedor principal
 echo '<div class="container">';

@@ -9,7 +9,7 @@ session_start();
     <meta charset="UTF-8">  									
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
-    <link rel="stylesheet" href="styles.css"> <!-- CSS externo -->
+    <link rel="stylesheet" href="../css/styles.css"> <!-- CSS externo -->
 </head>
 <body>
     <?php
@@ -20,11 +20,15 @@ session_start();
     ?>
 	<!-- Crear un menú de navegación -->
   	<nav>
-  	<ul style="list-style-type: none; padding: 0;">
-  	<li style="display: inline; margin-right: 15px;"><a href="index.php">Inicio</a></li>
-  	<li style="display: inline; margin-right: 15px;"><a href="register.php">Registrarse</a></li>
-  	</ul>
-  	</nav>
+        <ul style="list-style-type: none; padding: 0;">
+        <li style="display: inline; margin-right: 15px;"><a href="register.php">Página de registro</a></li>
+        <li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>
+        <li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>
+        <li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir canción</a></li>
+        <li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar canción</a></li>
+        <li style="display: inline; margin-right: 15px;"><a href="modify_item.php">Modificar canción</a></li>
+        </ul>
+        </nav>
     <h2>Inicio de Sesión</h2>
     <form id="login_form" action="process_login.php" method="POST">              
         <!-- Nombre de Usuario -->
