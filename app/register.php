@@ -68,14 +68,8 @@ session_start();
 
 	<!-- Contrasenna -->
         <label for="Contrasenna">Contraseña:</label>
-        <input type="password" id="contrasenna" name="Contrasenna" placeholder="********" required>    			
+        <input type="password" id="contrasenna" name="contrasenna" placeholder="********" required>    			
         <span id="Contrasenna_error" class="error"></span>
-        <br>
-
-	<!-- Repetir Contrasenna -->
-        <label for="Contrasenna2">Repetir Contraseña:</label>
-        <input type="password" id="contrasenna2" name="Contrasenna2" placeholder="********" required>    			
-        <span id="Contrasenna2_error" class="error"></span>
         <br>
 
         <!-- Botón de envío -->

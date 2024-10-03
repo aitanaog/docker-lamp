@@ -76,16 +76,6 @@
         } else {
             document.getElementById('email_error').textContent = "";
         }
-
-
-        // Validar que las contraseñas coincidan
-        const contrasenna=document.getElementById('contrasenna').value;
-        const contrasenna2= document.getElementById('contrasenna2').value;
-        
-        if (contrasenna !== contrasenna2) {
-            mensaje.textContent = "Las contraseñas no coinciden.";
-        }
-        
         
         // Si alguna validación falla, se previene el envío del formulario
         if (!valid) {

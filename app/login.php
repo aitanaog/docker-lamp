@@ -34,8 +34,8 @@ session_start();
         <br>
 
         <!-- Contraseña -->
-        <label for="Contrasenna">Contraseña:</label>
-        <input type="password" id="Contrasenna" name="Contrasenna" required>
+        <label for="contrasenna">Contraseña:</label>
+        <input type="password" id="contrasenna" name="contrasenna" required>
         <span id="Contrasenna_error" class="error"></span>
         <br>
 

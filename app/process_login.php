@@ -23,10 +23,10 @@
 	if (mysqli_num_rows($email_query) > 0) {
    		 // Obtener el hash de la contraseña del usuario
     		$fila = mysqli_fetch_assoc($email_query);
-    		$hashed_password = $fila['contrasenna'];
+    		$reviso = $fila['contrasenna'];
 
     		// Verificar la contraseña ingresada con el hash almacenado
-    		if (password_verify($contrasenna, $hashed_password)) {
+    		if (strcmp($contrasenna, $reviso) === 0) {
     			$_SESSION['user_email'] = $email;		// Almacenamos el email de usuario en la sesión
         		$_SESSION['id'] = $id;
 				header("Location: inicio.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir

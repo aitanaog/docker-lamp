@@ -21,8 +21,7 @@ $fecha_nacimiento = mysqli_real_escape_string($conn, $_POST['fecha_nacimiento'])
 $email = mysqli_real_escape_string($conn, $_POST['email']);
 $contrasenna = mysqli_real_escape_string($conn, $_POST['contrasenna']);
 
-// Generar hash de la contraseña
-$hashed_password = password_hash($contrasenna, PASSWORD_BCRYPT);
+
 
 // Verificar si el email ya existe
 $email_query = "SELECT * FROM usuarios WHERE email = ?";
@@ -47,7 +46,7 @@ if ($stmt === false) {
     die("Error en la preparación de la consulta: " . mysqli_error($conn));
 }
 
-mysqli_stmt_bind_param($stmt, "sssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $hashed_password);
+mysqli_stmt_bind_param($stmt, "sssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $contrasenna);
 
 if (mysqli_stmt_execute($stmt)) {
     echo "Registro exitoso.";
