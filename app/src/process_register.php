@@ -20,8 +20,15 @@ $telefono = mysqli_real_escape_string($conn, $_POST['telefono']);
 $fecha_nacimiento = mysqli_real_escape_string($conn, $_POST['fecha_nacimiento']);
 $email = mysqli_real_escape_string($conn, $_POST['email']);
 $contrasenna = mysqli_real_escape_string($conn, $_POST['contrasenna']);
+$contrasenna2 = mysqli_real_escape_string($conn, $_POST['contrasenna2']);
 
 
+//verificar si las contraseñas coinciden
+if ($contrasenna !== $contrasenna2) {
+    $_SESSION['error_message'] = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+    header("Location: register.php");
+    exit();
+}
 
 // Verificar si el email ya existe
 $email_query = "SELECT * FROM usuarios WHERE email = ?";
