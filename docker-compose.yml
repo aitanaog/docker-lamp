@@ -33,5 +33,3 @@ service:
       MYSQL_USER: admin
       MYSQL_PASSWORD: test
       MYSQL_DATABASE: database
-
-fjioasjdlfjla
