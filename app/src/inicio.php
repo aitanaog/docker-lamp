@@ -18,6 +18,7 @@
         <li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir canción</a></li>
         <li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar canción</a></li>
         <li style="display: inline; margin-right: 15px;"><a href="modify_item.php">Modificar canción</a></li>
+        <li style="display: inline; margin-right: 15px;"><a href="modify_user.php">Modificar usuario</a></li>
         </ul>
         </nav>
 

@@ -1,10 +1,9 @@
 <?php
-
+	session_start();
 echo '<head>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
 	// Iniciar la sesión
-	session_start();
 	
 	// Crear un menú de navegación
 	  echo '<nav>';
