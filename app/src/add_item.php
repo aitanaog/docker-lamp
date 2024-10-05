@@ -21,8 +21,17 @@ session_start();
 	<!-- Crear un menú de navegación -->
   	<nav>
         <ul style="list-style-type: none; padding: 0;">
-        <li style="display: inline; margin-right: 15px;"><a href="register.php">Página de registro</a></li>
-        <li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>
+      <?php
+    if (isset($_SESSION['user_email'])) {
+        // La sesión está iniciada, el usuario está autenticado
+        echo '<li style="display: inline; margin-right: 15px;"><a href="logout.php">Cerrar Sesión</a></li>';
+        echo '<li style="display: inline; margin-right: 15px;"><a href="modify_user.php">Modificar perfil</a></li>';
+    } else {
+        // No hay sesión iniciada
+        echo '<li style="display: inline; margin-right: 15px;"><a href="register.php">Página de registro</a></li>';
+        echo '<li style="display: inline; margin-right: 15px;"><a href="login.php">Log in</a></li>';
+    }
+    ?>
         <li style="display: inline; margin-right: 15px;"><a href="items.php">Mostrar playlist</a></li>
         <li style="display: inline; margin-right: 15px;"><a href="add_item.php">Añadir canción</a></li>
         <li style="display: inline; margin-right: 15px;"><a href="delete_item.php">Eliminar canción</a></li>

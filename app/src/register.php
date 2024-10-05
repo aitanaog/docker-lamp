@@ -76,6 +76,13 @@ session_start();
         <span id="Contrasenna_error" class="error"></span>
         <br>
 
+    <!-- Contrasenna -->
+        <label for="Contrasenna2">Repite contraseña:</label>
+        <input type="password" id="contrasenna2" name="contrasenna2" placeholder="********" required>    			
+        <span id="Contrasenna_error" class="error"></span>
+        <br>
+
+
         <!-- Botón de envío -->
         <button type="submit" id="register_submit">Registrarse</button>
     </form>
