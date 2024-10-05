@@ -132,3 +132,4 @@ function showEditForm(field, value) {
     document.getElementById('new_value').value = value;
 }
 </script>
+<script src="path/to/validation.js"></script> <!-- Asegúrate de incluir el archivo de validación -->

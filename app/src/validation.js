@@ -4,6 +4,7 @@
 	document.addEventListener('DOMContentLoaded', function() {
     		document.getElementById('register_form').addEventListener('submit', function(event) {   
        		 let valid = true;
+             
 
         // Validación del nombre (solo texto)
         const nombre = document.getElementById('nombre').value;
@@ -102,4 +103,29 @@
             event.preventDefault();
         }
     });
-});
+   
+    
+        // Validación del formulario de modificación de usuario
+        document.getElementById('edit_form').addEventListener('submit', function(event) {
+            let valid = true;
+    
+            // Validación del nuevo valor (solo texto si el campo es nombre o apellidos)
+            const field = document.getElementById('field').value;
+            const newValue = document.getElementById('new_value').value;
+            const nombreValido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    
+            if (field === 'nombre' || field === 'apellidos') {
+                if (!nombreValido.test(newValue)) {
+                    valid = false;
+                    document.getElementById('new_value_error').textContent = "El " + field + " solo puede contener letras.";
+                } else {
+                    document.getElementById('new_value_error').textContent = "";
+                }
+            }
+    
+            // Si alguna validación falla, se previene el envío del formulario
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    });
