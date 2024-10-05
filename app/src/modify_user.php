@@ -1,16 +1,9 @@
 <?php
-<<<<<<< HEAD
-=======
-	// Iniciar la sesión
->>>>>>> 7adce27a370cc6937a05ad2a0cd2f8781c6ade16
 	session_start();
 echo '<head>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
-<<<<<<< HEAD
 	// Iniciar la sesión
-=======
->>>>>>> 7adce27a370cc6937a05ad2a0cd2f8781c6ade16
 	
 	// Crear un menú de navegación
 	  echo '<nav>';
