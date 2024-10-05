@@ -1,25 +1,34 @@
 <?php
+<<<<<<< HEAD
+=======
+	// Iniciar la sesión
+>>>>>>> 7adce27a370cc6937a05ad2a0cd2f8781c6ade16
 	session_start();
 echo '<head>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
+<<<<<<< HEAD
 	// Iniciar la sesión
+=======
+>>>>>>> 7adce27a370cc6937a05ad2a0cd2f8781c6ade16
 	
 	// Crear un menú de navegación
 	  echo '<nav>';
 	  echo '<ul style="list-style-type: none; padding: 0;">';
-	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/register.php">Página de registro</a></li>';
-	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/login.php">Log in</a></li>'; 
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/items.php">Mostrar playlist</a></li>';
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/add_item.php">Añadir cancion</a></li>';
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/delete_item.php">Eliminar cancion</a></li>';
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/modify_item.php">Modificar cancion</a></li>';
+
+	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/logout.php">Cerrar sesión</a></li>';
+
 	  echo '</ul>';
 	  echo '</nav>';
 
 	
 	echo '</ul>';
 	echo '</nav>';
+	
 	// Conexión a la base de datos
 	$hostname = "db"; // Cambia por tu hostname
 	$username = "admin"; // Cambia por tu username

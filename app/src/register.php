@@ -82,6 +82,7 @@ session_start();
         <span id="Contrasenna_error" class="error"></span>
         <br>
 
+
         <!-- Botón de envío -->
         <button type="submit" id="register_submit">Registrarse</button>
     </form>

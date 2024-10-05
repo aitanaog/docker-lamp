@@ -30,6 +30,7 @@ if ($contrasenna !== $contrasenna2) {
     exit();
 }
 
+
 // Verificar si el email ya existe
 $email_query = "SELECT * FROM usuarios WHERE email = ?";
 $stmt = mysqli_prepare($conn, $email_query);
@@ -56,7 +57,8 @@ if ($stmt === false) {
 mysqli_stmt_bind_param($stmt, "sssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $contrasenna);
 
 if (mysqli_stmt_execute($stmt)) {
-    echo "Registro exitoso.";
+    $_SESSION['error_message'] = "Se ha registrado correctamente.";
+    header("Location: register.php");
 } else {
     echo "Error: " . mysqli_stmt_error($stmt);
 }
@@ -64,5 +66,3 @@ if (mysqli_stmt_execute($stmt)) {
 // Cerrar la conexión
 mysqli_close($conn);
 ?>
-
-
