@@ -1,0 +1,144 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Estilos del menú de navegación */
+nav {
+    background-color: #007BFF;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+    border-radius: 5px;
+}
+
+/* Estilos del formulario */
+form {
+    border-radius: 5px;
+    max-width: 500px;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+    color: #007BFF;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+/* Mensaje de error */
+p {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Estilos para tablas */
+table {
+    width: 80%; 
+    margin: 0 auto;
+    border-collapse: collapse; /* Para que las bordes de las celdas se fusionen */
+    margin-top: 20px; /* Espacio arriba de la tabla */
+}
+
+th, /* Cabeceras de tabla */
+td { /* Celdas de la tabla */
+    padding: 10px;
+    border: 1px solid #ddd; /* Borde de las celdas */
+   
+}
+
+th {
+    background-color: #007BFF; /* Color de fondo de las cabeceras */
+    color: white; /* Color de texto de las cabeceras */
+    font-weight: bold; /* Negrita para las cabeceras */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color de fondo de filas pares */
+}
+
+tr:hover {
+    background-color: #ddd; /* Color de fondo al pasar el ratón por encima de una fila */
+}
+
+span {
+font-size: 13px;
+}
+

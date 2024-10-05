@@ -22,8 +22,13 @@
 	$id = mysqli_query($conn, "SELECT id FROM usuarios WHERE email='$email'");
 	if (mysqli_num_rows($email_query) > 0) {
    		 // Obtener el hash de la contraseña del usuario
+
     		//$fila = mysqli_fetch_assoc($email_query);
     		//$reviso = $fila['contrasenna'];
+
+    		$fila = mysqli_fetch_assoc($email_query);
+    		$reviso = $fila['contrasenna'];
+
 
     		// Verificar la contraseña ingresada con el hash almacenado
     		if (strcmp($contrasenna, $reviso) === 0) {

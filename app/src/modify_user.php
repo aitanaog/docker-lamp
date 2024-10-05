@@ -1,10 +1,9 @@
 <?php
-
+	// Iniciar la sesión
+	session_start();
 echo '<head>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
-	// Iniciar la sesión
-	session_start();
 	
 	// Crear un menú de navegación
 	  echo '<nav>';
@@ -13,13 +12,16 @@ echo '<head>';
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/add_item.php">Añadir cancion</a></li>';
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/delete_item.php">Eliminar cancion</a></li>';
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/modify_item.php">Modificar cancion</a></li>';
+
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/logout.php">Cerrar sesión</a></li>';
+
 	  echo '</ul>';
 	  echo '</nav>';
 
 	
 	echo '</ul>';
 	echo '</nav>';
+	
 	// Conexión a la base de datos
 	$hostname = "db"; // Cambia por tu hostname
 	$username = "admin"; // Cambia por tu username

@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 -- Estructura de tabla para la tabla `usuarios`
-CREATE TABLE IF NOT EXISTS usuarios (
+CREATE TABLE usuarios (
     id INT NOT NULL AUTO_INCREMENT,  
     nombre VARCHAR(50) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
@@ -43,7 +43,7 @@ INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email,
 
 
 -- Estructura de tabla para la tabla `canciones`
-CREATE TABLE IF NOT EXISTS canciones (
+CREATE TABLE  canciones (
     id INT NOT NULL AUTO_INCREMENT,
     nombre_cancion VARCHAR(100) NOT NULL,
     cantante VARCHAR(100) NOT NULL,

@@ -36,7 +36,8 @@
         VALUES ('$nombre','$cantante', '$album', '$genero', '$fecha_lanzamiento')";
 
 	if (mysqli_query($conn, $sql)) {
-    		echo "Canción añadida correctamente";
+    		$_SESSION['error_message'] ="Canción añadida correctamente.";
+    		header("Location:add_item.php"); 		
 	} else {
     	echo "Error: " . mysqli_error($conn);
 	}
@@ -44,5 +45,4 @@
 	// Cerrar la conexión
 	mysqli_close($conn);
 ?>
-
 

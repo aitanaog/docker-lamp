@@ -16,13 +16,13 @@
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    	if (!isset($_SESSION['id'])) {
+    	if (!isset($_SESSION['user_email'])) {
 			die("ID de usuario no encontrado en la sesión.");
 		}
 		
 		
 		// Obtener el ID del usuario registrado (asumiendo que está almacenado en la sesión)
-    	$user_id = $_SESSION['id'];
+    	$user_id = $_SESSION['user_email'];
 
 		// Obtener los datos del formulario
 		if (!isset($_POST['field']) || !isset($_POST['new_value'])) {
@@ -33,13 +33,13 @@
     	$new_value = $_POST['new_value'];
 	
     	// Validar el campo
-    	$allowed_fields = ['nombre', 'email', 'dni', 'telefono','fecha_nacimiento','email'];
+    	$allowed_fields = ['nombre', 'apellidos', 'dni', 'telefono','fecha_nacimiento','email'];
     	if (!in_array($field, $allowed_fields)) {
         	die("Campo no permitido.");
     	}
 
     	// Preparar la consulta SQL
-    	$sql = "UPDATE usuarios SET $field=? WHERE id=?";
+    	$sql = "UPDATE usuarios SET $field=? WHERE email=?";
     	$stmt = $conn->prepare($sql);
     	if ($stmt === false) {
         	die("Error en la preparación de la consulta: " . $conn->error);
