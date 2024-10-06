@@ -1,19 +1,43 @@
+# SGSSI-Proyecto
 
-# Docker LAMP
-Linux + Apache + MariaDB (MySQL) + PHP 7.2 on Docker Compose. Mod_rewrite enabled by default.
 
-## Instructions
+## Miembros
 
-Enter the following command to start your containers:
+* Andoni Garcia
+* Naia Ladron
+* Mateo Ortiz
+* Sofía Granja
+* Asier Reinoso
+* Aitana Olivera
+
+## Instalacion y uso
+
+### 1. Clonamos el repositorio
+
 ```bash
-$ docker-compose up -d
+git clone git@github.com:aitanaog/docker-lamp.git
 ```
 
-To stop them, use this:
+### 2. Nos movemos a la carpeta
+
 ```bash
-$ docker-compose stop
+cd docker-lamp
 ```
 
-Feel free to make pull requests and help to improve this.
+### 3. Levantamos el servicio mediante el 'docker-compose.yml'
 
-If you are looking for phpMyAdmin, take a look at [this](https://github.com/celsocelante/docker-lamp/issues/2).
+```bash
+docker-compose up
+```
+
+### 4. Entramos a phpMyAdmin mediante http://localhost:8890/
+* ¿Credenciales de phpMyAdmin?
+
+```text
+User: admin
+Passwd: test
+```
+
+### 5. Importamos "database.sql"
+
+
