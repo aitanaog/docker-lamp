@@ -34,7 +34,7 @@
     		if (strcmp($contrasenna, $reviso) === 0) {
     			$_SESSION['user_email'] = $email;		// Almacenamos el email de usuario en la sesión
         		$_SESSION['id'] = $id;
-				header("Location: inicio.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir
+				header("Location:../index.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir
         		exit(); 					// Importante: detiene la ejecución para evitar que se siga ejecutando el script
     		} else {
         	$_SESSION['error_message'] ="La contraseña no coincide.";

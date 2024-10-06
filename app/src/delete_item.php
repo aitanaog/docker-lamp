@@ -1,5 +1,8 @@
 <?php
 echo '<head>';
+    echo'<meta charset="UTF-8">  ';									
+    echo'<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+    echo'<title>localhost:81/delete_item?</title>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
 // Crear un menú de navegación
@@ -66,7 +69,7 @@ while ($row = mysqli_fetch_array($query)) {
             <td>
                 <form method='POST' action='process_delete_item.php' onsubmit='return confirm(\"¿Estás seguro de que deseas eliminar esta canción?\");'> <!-- Confirmación antes de eliminar -->
                     <input type='hidden' name='id' value='{$row['id']}'> <!-- ID de la canción -->
-                    <input type='submit' value='Eliminar'>
+                    <button type='submit' id='item_delete_submit'>Eliminar</button>
                 </form>
             </td>
           </tr>";

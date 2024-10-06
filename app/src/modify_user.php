@@ -1,6 +1,10 @@
 <?php
 	session_start();
 echo '<head>';
+   echo' <meta charset="UTF-8"> '; 									
+    echo'<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+   echo' <title>localhost:81/modify_user?</title>';
+  echo '<script defer src="validation.js"></script> <!-- JavaScript externo -->';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
 	// Iniciar la sesión
@@ -112,12 +116,13 @@ echo '</div>'; // Cerrar contenedor de la tabla
 	// Contenedor del formulario
 	echo '<div class="form-container">';
 	echo '<h2>Modificar Datos del Usuario</h2>';
-	echo '<form id="edit_form" method="POST" action="process_modify_user.php" style="display: none;">
+	echo '<form id="user_modify_form" method="POST" action="process_modify_user.php" style="display: none;">
         	<input type="hidden" name="field" id="field">
         	<label id="field_label"></label>
         	<input type="text" name="new_value" id="new_value" required>
-        	<input type="submit" value="Confirmar">
-      </form>';
+        	
+        	<button type="submit" id="user_modify_submit">Confirmar</button>
+      		</form>';
 echo '</div>'; // Cerrar contenedor del formulario
 echo '</div>'; // Cerrar contenedor principal
 
@@ -126,7 +131,7 @@ $conn->close();
 
 <script>
 function showEditForm(field, value) {
-    document.getElementById('edit_form').style.display = 'block';
+    document.getElementById('user_modify_form').style.display = 'block';
     document.getElementById('field').value = field;
     document.getElementById('field_label').innerText = 'Nuevo ' + field.charAt(0).toUpperCase() + field.slice(1) + ':';
     document.getElementById('new_value').value = value;

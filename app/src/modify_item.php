@@ -1,6 +1,9 @@
 <?php
 
 echo '<head>';
+    echo'<meta charset="UTF-8">  									
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localhost:81/modify_item</title>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
     
@@ -105,7 +108,7 @@ if (isset($_GET['id'])) {
             <script src="validation.js" defer></script>
         </head>
         <body>
-        <form id="modify_item" method="POST" action="process_modify_item.php">
+        <form id="item_modify_form" method="POST" action="process_modify_item.php">
             <input type="hidden" name="id" value="<?php echo $selected_song['id']; ?>">
             <label for="nombre_cancion">Nombre de la Canción:</label>
             <input type="text" id="nombre_cancion" name="nombre_cancion" value="<?php echo $selected_song['nombre_cancion']; ?>" required>
@@ -127,11 +130,12 @@ if (isset($_GET['id'])) {
             <input type="text" id="album" name="album" value="<?php echo $selected_song['album']; ?>" required>
             <span>(Anterior: <?php echo $selected_song['album']; ?>)</span>
             <br>
-            <input type="submit" value="Modificar">
+            <!--<input type="submit" value="Modificar">!-->
+            <button type="submit" id="item_modify_submit">Confirmar</button>
         </form>
         <?php
     } else {
-        echo "<p style='color: red;'>Canción no encontrada.</p>";
+         echo "<p style='color: red;'>Canción no encontrada.</p>";
     }
 }
 

@@ -8,7 +8,7 @@ session_start();
 <head>
     <meta charset="UTF-8">  									
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>localhost:81/add_item</title>
     <link rel="stylesheet" href="../css/styles.css"> <!-- CSS externo -->
 </head>
 <body>

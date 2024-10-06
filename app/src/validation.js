@@ -106,7 +106,7 @@
    
     
         // Validación del formulario de modificación de usuario
-        document.getElementById('edit_form').addEventListener('submit', function(event) {
+        document.getElementById('user_modify_form').addEventListener('submit', function(event) {
             let valid = true;
     
             // Validación del nuevo valor (solo texto si el campo es nombre o apellidos)
@@ -122,6 +122,7 @@
                     document.getElementById('new_value_error').textContent = "";
                 }
             }
+           
     
             // Si alguna validación falla, se previene el envío del formulario
             if (!valid) {
