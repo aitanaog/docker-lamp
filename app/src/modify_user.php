@@ -1,5 +1,12 @@
 <?php
 	session_start();
+	// Generar un token CSRF si no existe en la sesión
+	if (empty($_SESSION['csrf_token'])) {
+	    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio de 32 bytes
+	}
+
+	// Obtener el token CSRF para incluirlo en el formulario
+	$csrf_token = $_SESSION['csrf_token'];
 echo '<head>';
    echo' <meta charset="UTF-8"> '; 									
     echo'<meta name="viewport" content="width=device-width, initial-scale=1.0">';

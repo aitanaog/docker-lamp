@@ -1,8 +1,16 @@
 	<?php
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
+	// Iniciar la sesión para acceder a $_SESSION
 	session_start();
+
+	// Generar un token CSRF si no existe en la sesión
+	if (empty($_SESSION['csrf_token'])) {
+	    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio de 32 bytes
+	}
+
+	// Obtener el token CSRF para incluirlo en el formulario
+	$csrf_token = $_SESSION['csrf_token'];
 	?>
+
 	<!DOCTYPE html>
 	<html lang="es">  
 	<head>
@@ -72,6 +80,8 @@
 		<span id="fecha_lanzamiento_error" class="error"></span>
 		<br>
 
+		 <!-- Token CSRF -->
+		 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
 
 		<!-- Botón de envío -->

@@ -3,8 +3,12 @@
 	    'cookie_lifetime' => 86400,
 	    'cookie_httponly' => true,
 	    'cookie_secure' => true,
-	    'cookie_samesite' => 'Strict'
 	]);
+	
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		die("Error al procesar la solicitud.");
+	    }
 
 	// Conectar a la base de datos
 	$hostname = "db"; 
@@ -21,7 +25,7 @@
 	$limite_intentos = 3;
 	$periodo_intentos = 24 * 60 * 60;
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 	    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 	    $contrasenna = $_POST['contrasenna'];
 
@@ -34,6 +38,10 @@
 	    // Consulta de autenticación
 	    $sql = "SELECT id, contrasenna FROM usuarios WHERE email = ?";
 	    $stmt = $conn->prepare($sql);
+	    if ($stmt === false) {
+            	die("Error en la preparación de la consulta: " . $conn->error);
+       	     }
+
 	    $stmt->bind_param("s", $email);
 	    $stmt->execute();
 	    $result = $stmt->get_result();
@@ -47,6 +55,9 @@
 		// Consultar intentos fallidos
 		$sql_fallidos = "SELECT COUNT(*) AS intentos FROM login_fallidos WHERE id_usuario = ? AND fecha > NOW() - INTERVAL 1 DAY";
 		$stmt = $conn->prepare($sql_fallidos);
+	    	if ($stmt === false) {
+            		die("Error en la preparación de la consulta: " . $conn->error);
+       	     	}
 		$stmt->bind_param("i", $id_usuario);
 		$stmt->execute();
 		$result_fallidos = $stmt->get_result();
@@ -56,13 +67,16 @@
 		$mostrar_captcha = $intentos_fallidos >= $limite_intentos;
 
 		// Verificación de contraseña y CAPTCHA
-		if (password_verify($contrasenna, $contrasenna_almacenada) && (!$mostrar_captcha || (isset($_POST['g-recaptcha-response']) && validarCaptcha($_POST['g-recaptcha-response'])))) {
+		if ($contrasenna === $contrasenna_almacenada && (!$mostrar_captcha || (isset($_POST['g-recaptcha-response']) && validarCaptcha($_POST['g-recaptcha-response'])))) {
 		    $_SESSION['user_email'] = $email;
 		    $_SESSION['id'] = $id_usuario;
 
 		    // Limpiar intentos fallidos
 		    $sql_borrar_intentos = "DELETE FROM login_fallidos WHERE id_usuario = ?";
 		    $stmt = $conn->prepare($sql_borrar_intentos);
+		    if ($stmt === false) {
+		    	die("Error en la preparación de la consulta: " . $conn->error);
+	       	     }
 		    $stmt->bind_param("i", $id_usuario);
 		    $stmt->execute();
 		    $stmt->close();
@@ -73,6 +87,9 @@
 		    // Registrar intento fallido
 		    $sql_insertar_fallido = "INSERT INTO login_fallidos (id_usuario, fecha) VALUES (?, NOW())";
 		    $stmt = $conn->prepare($sql_insertar_fallido);
+		    if ($stmt === false) {
+		    	die("Error en la preparación de la consulta: " . $conn->error);
+	       	     }
 		    $stmt->bind_param("i", $id_usuario);
 		    $stmt->execute();
 		    $stmt->close();

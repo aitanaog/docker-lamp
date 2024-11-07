@@ -1,4 +1,9 @@
 <?php
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		die("Error al procesar la solicitud.");
+	    }
 	// Conexión a la base de datos
 	$hostname = "db"; 
 	$username = "admin"; 
@@ -10,7 +15,7 @@
 	    die("Database connection failed: " . $conn->connect_error);
 	}
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 	    // Verificar que se haya recibido el ID
 	    if (isset($_POST["id"])) {
 		// Validar y sanitizar el ID para asegurarse de que es un número entero
@@ -55,8 +60,8 @@
 		header("Location: modify_item.php?msg=no_id");
 		exit();
 	    }
+	
 	}
-
 	// Cerrar la conexión
 	$conn->close();
 

@@ -1,4 +1,8 @@
 <?php
+
+	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+	    die("Error al procesar la solicitud.");
+	}
 	// Conexión a la base de datos
 	$hostname = "db";  
 	$username = "admin";  

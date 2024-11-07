@@ -43,7 +43,7 @@ INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email,
 
 
 -- Estructura de tabla para la tabla `canciones`
-CREATE TABLE  canciones (
+CREATE TABLE canciones (
     id INT NOT NULL AUTO_INCREMENT,
     nombre_cancion VARCHAR(100) NOT NULL,
     cantante VARCHAR(100) NOT NULL,
@@ -70,11 +70,10 @@ INSERT INTO canciones (nombre_cancion, cantante, album, genero_musical, fecha_la
 
 
 CREATE TABLE login_fallidos (
-	id_usuario INT NOT NULL,
-	fecha DATE NOT NULL
+    id_usuario INT NOT NULL,
+    fecha DATE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-	
 
 
 -- Confirmar los cambios
