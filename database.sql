@@ -69,6 +69,14 @@ INSERT INTO canciones (nombre_cancion, cantante, album, genero_musical, fecha_la
 ('Uptown Funk', 'Mark Ronson ft. Bruno Mars', 'Uptown Special', 'Funk', '2014-11-10');
 
 
+CREATE TABLE login_fallidos (
+	id_usuario INT NOT NULL,
+	fecha DATE NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+	
+
+
 -- Confirmar los cambios
 COMMIT;
 

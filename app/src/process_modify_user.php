@@ -2,10 +2,10 @@
 session_start();
 
 // Conexión a la base de datos
-$hostname = "db"; // Cambia por tu hostname
-$username = "admin"; // Cambia por tu username
-$password = "test"; // Cambia por tu password
-$db = "database"; // Cambia por tu database name
+$hostname = "db"; 
+$username = "admin"; 
+$password = "test"; 
+$db = "database"; 
 
 $conn = mysqli_connect($hostname, $username, $password, $db);
 if ($conn->connect_error) {
@@ -13,67 +13,92 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar si el ID del usuario está en la sesión
-    if (!isset($_SESSION['user_email'])) {
-        die("No se ha encontrado la sesión del usuario.");
-    }
-    
-    // Obtener el email del usuario de la sesión
-    $user_email = $_SESSION['user_email'];
-    
-    // Obtener los datos del formulario
-    if (!isset($_POST['field']) || !isset($_POST['new_value'])) {
-        die("Datos del formulario no recibidos.");
-    }
-    
-    $field = $_POST['field'];
-    $new_value = $_POST['new_value'];
-    
-    // Validar el campo
-    $allowed_fields = ['nombre', 'apellidos', 'email', 'dni', 'telefono', 'fecha_nacimiento'];
-    if (!in_array($field, $allowed_fields)) {
-        die("Campo no permitido.");
-    }
+    // Verificar que se haya recibido el ID
+    if (isset($_POST["id"])) {
+        // Validar y sanitizar el ID para asegurarse de que es un número entero
+        $id = filter_var($_POST["id"], FILTER_VALIDATE_INT);
+        if ($id === false) {
+            header("Location: modify_user.php?msg=invalid_id");
+            exit();
+        }
 
-    // Preparar la consulta SQL para obtener el ID del usuario
-    $sql = "SELECT id FROM usuarios WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $user_email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows === 0) {
-        die("Usuario no encontrado.");
-    }
+        // Obtener el email del usuario de la sesión
+        $user_email = $_SESSION['user_email'];
+        
+        // Validar y obtener los datos del formulario
+        if (!isset($_POST['field']) || !isset($_POST['new_value'])) {
+            die("Datos del formulario no recibidos.");
+        }
 
-    $user = $result->fetch_assoc();
-    $user_id = $user['id'];
+        $field = $_POST['field'];
+        $new_value = $_POST['new_value'];
 
-    // Preparar la consulta SQL para actualizar el campo
-    $sql = "UPDATE usuarios SET $field = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    
-    if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . $conn->error);
-    }
+        // Validar el campo
+        $allowed_fields = ['nombre', 'apellidos', 'email', 'dni', 'telefono', 'fecha_nacimiento'];
+        if (!in_array($field, $allowed_fields)) {
+            die("Campo no permitido.");
+        }
 
-    // Vincular los parámetros (suponiendo que el nuevo valor es una cadena)
-    $stmt->bind_param("si", $new_value, $user_id);
+        // CONSULTA1: obtener el ID del usuario por su email
+        $sql = "SELECT id FROM usuarios WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            die("Error en la preparación de la consulta: " . $conn->error);
+        }
 
-    // Ejecutar la consulta
-    if ($stmt->execute()) {
-        // Redirigir de vuelta con un mensaje de éxito
-        header("Location: modify_user.php?msg=success");
-        exit();
+        // Vincular el parámetro y ejecutar la consulta
+        $stmt->bind_param("s", $user_email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        
+        // Verificar si se encontró al usuario
+        if ($result->num_rows === 0) {
+            die("Usuario no encontrado.");
+        }
+
+        $user = $result->fetch_assoc();
+        $user_id = $user['id'];
+
+        // CONSULTA2: Actualizar el campo específico usando un mapeo seguro
+        $field_column_map = [
+            'nombre' => 'nombre',
+            'apellidos' => 'apellidos',
+            'email' => 'email',
+            'dni' => 'dni',
+            'telefono' => 'telefono',
+            'fecha_nacimiento' => 'fecha_nacimiento'
+        ];
+
+        $column = $field_column_map[$field];  // Determinar columna segura
+        
+        $sql = "UPDATE usuarios SET $column = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            die("Error en la preparación de la consulta: " . $conn->error);
+        }
+
+        // Vincular los parámetros y ejecutar la consulta
+        $stmt->bind_param("si", $new_value, $user_id);
+        if ($stmt->execute()) {
+            // Redirigir con un mensaje de éxito
+            header("Location: modify_user.php?msg=success");
+            exit();
+        } else {
+            // Redirigir con un mensaje de error
+            header("Location: modify_user.php?msg=error&error=" . urlencode($stmt->error));
+            exit();
+        }
+
+        // Cerrar la declaración
+        $stmt->close();
     } else {
-        // Redirigir de vuelta con un mensaje de error
-        header("Location: modify_user.php?msg=error&error=" . urlencode($stmt->error));
+        // Si no se recibe el ID, redirigir con un mensaje de error
+        header("Location: modify_user.php?msg=no_id");
         exit();
     }
-
-    // Cerrar la declaración
-    $stmt->close();
 }
 
 $conn->close();
 ?>
+

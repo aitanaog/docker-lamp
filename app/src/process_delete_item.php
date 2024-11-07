@@ -1,37 +1,59 @@
 <?php
-// Conexión a la base de datos
-$hostname = "db";  // Cambia si es necesario
-$username = "admin";  // Cambia si es necesario
-$password = "test";  // Cambia si es necesario
-$db = "database";  // Cambia si es necesario
+	// Conexión a la base de datos
+	$hostname = "db";  
+	$username = "admin";  
+	$password = "test";  
+	$db = "database";  
 
-$conn = mysqli_connect($hostname, $username, $password, $db);
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-}
+	$conn = mysqli_connect($hostname, $username, $password, $db);
+	if ($conn->connect_error) {
+	    die("Database connection failed: " . $conn->connect_error);
+	}
 
-// Verificar si se ha recibido el ID de la canción a eliminar
-if (isset($_POST['id'])) {
-    $id = mysqli_real_escape_string($conn, $_POST['id']); // Escapar el ID para evitar inyecciones SQL
+	// Verificar si se ha recibido el ID de la canción a eliminar
+	if ($_SERVER["REQUEST_METHOD"] == "POST"){
+	    // Verificar que se haya recibido el ID
+	    if (isset($_POST["id"])) {
+		    // Validar y sanitizar el ID para asegurarse de que es un número entero
+		     $id = filter_var($_POST["id"], FILTER_VALIDATE_INT);
+		     if ($id === false) {
+			   header("Location: delete_item.php?msg=invalid_id");
+			   exit();
+		     }
+	   
+		    // Preparar la consulta SQL usando sentencias preparadas
+		    // Consulta para eliminar la canción
+		    $sql = "DELETE FROM canciones WHERE id= ?";
+		    $stmt = $conn->prepare($sql);
+	       	    if ($stmt === false) {
+		    	die("Error en la preparación de la consulta: " . $conn->error);
+		     }
+		     
+		    // Vincular los parámetros 
+		    $stmt->bind_param("i", $id);
+		
+		    if ($stmt->execute()) {
+			// Si se elimina con éxito, redirigir de vuelta
+			header("Location: delete_item.php?msg=success");
+			exit(); 
+		    } else {
+			// En caso de error, redirigir de vuelta con un mensaje de error
+			header("Location: delete_item.php?msg=error");
+			exit();
+		    }
+		} 
+	else {
+		// Si no se recibe el ID, redirigir con un mensaje de error
+		header("Location: delete_item.php?msg=no_id");
+		exit();
+	    }
+	}
 
-    // Consulta para eliminar la canción
-    $query = "DELETE FROM canciones WHERE id='$id'";
-    if (mysqli_query($conn, $query)) {
-        // Si se elimina con éxito, redirigir de vuelta
-        header("Location: items.php?msg=success");
-        exit(); // Asegúrate de usar exit después de header
-    } else {
-        // En caso de error, redirigir de vuelta con un mensaje de error
-        header("Location: items.php?msg=error");
-        exit();
-    }
-} else {
-    // Redirigir de vuelta si no se recibió el ID
-    header("Location: items.php?msg=no_id");
-    exit();
-}
-
-// Cerrar la conexión
-mysqli_close($conn);
+	// Cerrar la conexión
+	mysqli_close($conn);
 ?>
 
+
+
+
+        

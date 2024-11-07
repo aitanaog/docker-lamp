@@ -37,13 +37,22 @@ echo '<head>';
     		die("Database connection failed: " . $conn->connect_error);
 	}
 
+	
 	// Obtener el ID del usuario registrado (asumiendo que está almacenado en la sesión)
 	$user_email = $_SESSION['user_email'];
 
-	// Obtener la información del usuario de la base de datos
+	// Preparar la consulta SQL usando sentencias preparadas
+	// CONSULTA 1: Obtener la información del usuario de la base de datos
 	$sql = "SELECT * FROM usuarios WHERE email = ?";
 	$stmt = $conn->prepare($sql);
+	if ($stmt === false) {
+	    die("Error en la preparación de la consulta: " . $conn->error);
+	}
+	   
+	// Vincular los parámetros  
 	$stmt->bind_param("s", $user_email);
+	
+	// Ejecutar la consulta
 	$stmt->execute();
 	$result = $stmt->get_result();
 
@@ -52,8 +61,11 @@ echo '<head>';
 	} else {
    		 die("Usuario no encontrado.");
 	}
-
-	
+       
+        
+        // Cerrar la declaración
+       	$stmt->close();
+       	   	
 	// Mostrar mensajes de estado
 	if (isset($_GET['msg'])) {
     		if ($_GET['msg'] == 'success') {

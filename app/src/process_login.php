@@ -1,53 +1,101 @@
 <?php
-	// Iniciar la sesión
-	session_start();
-	
+	session_start([
+	    'cookie_lifetime' => 86400,
+	    'cookie_httponly' => true,
+	    'cookie_secure' => true,
+	    'cookie_samesite' => 'Strict'
+	]);
+
 	// Conectar a la base de datos
-	$hostname = "db"; // Cambia por tu hostname
-	$username = "admin"; // Cambia por tu username
-	$password = "test"; // Cambia por tu password
-	$db = "database"; // Cambia por tu database name
+	$hostname = "db"; 
+	$username = "admin"; 
+	$password = "test"; 
+	$db = "database"; 
 
-	$conn = mysqli_connect($hostname, $username, $password, $db);
+	$conn = new mysqli($hostname, $username, $password, $db);
 	if ($conn->connect_error) {
-    		die("Database connection failed: " . $conn->connect_error);
+	    die("Database connection failed: " . $conn->connect_error);
 	}
 
-	// Recoger los datos del formulario
-	$email = mysqli_real_escape_string($conn, $_POST['email']);
-	$contrasenna = $_POST['contrasenna']; 
+	// Configuración de intentos fallidos
+	$limite_intentos = 3;
+	$periodo_intentos = 24 * 60 * 60;
 
-	// Verificar si el email ya existe
-	$email_query = mysqli_query($conn, "SELECT contrasenna FROM usuarios WHERE email='$email'");
-	$id = mysqli_query($conn, "SELECT id FROM usuarios WHERE email='$email'");
-	if (mysqli_num_rows($email_query) > 0) {
-   		 // Obtener el hash de la contraseña del usuario
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+	    $contrasenna = $_POST['contrasenna'];
 
-    		//$fila = mysqli_fetch_assoc($email_query);
-    		//$reviso = $fila['contrasenna'];
+	    if (!$email || !$contrasenna) {
+		$_SESSION['error_message'] = "Credenciales inválidas.";
+		header("Location: login.php");
+		exit();
+	    }
 
-    		$fila = mysqli_fetch_assoc($email_query);
-    		$reviso = $fila['contrasenna'];
+	    // Consulta de autenticación
+	    $sql = "SELECT id, contrasenna FROM usuarios WHERE email = ?";
+	    $stmt = $conn->prepare($sql);
+	    $stmt->bind_param("s", $email);
+	    $stmt->execute();
+	    $result = $stmt->get_result();
+	    $stmt->close();
 
+	    if ($result->num_rows > 0) {
+		$fila = $result->fetch_assoc();
+		$id_usuario = $fila['id'];
+		$contrasenna_almacenada = $fila['contrasenna'];
 
-    		// Verificar la contraseña ingresada con el hash almacenado
-    		if (strcmp($contrasenna, $reviso) === 0) {
-    			$_SESSION['user_email'] = $email;		// Almacenamos el email de usuario en la sesión
-        		$_SESSION['id'] = $id;
-				header("Location:../index.php"); 		// Cambia 'dashboard.php' por la página a la que deseas redirigir
-        		exit(); 					// Importante: detiene la ejecución para evitar que se siga ejecutando el script
-    		} else {
-        	$_SESSION['error_message'] ="La contraseña no coincide.";
-        	header("Location: login.php");
-    		exit();	
-   		}
-	} else {
-   	 	$_SESSION['error_message'] ="El email no existe.";
-   	     	header("Location: login.php");
-    		exit();	
+		// Consultar intentos fallidos
+		$sql_fallidos = "SELECT COUNT(*) AS intentos FROM login_fallidos WHERE id_usuario = ? AND fecha > NOW() - INTERVAL 1 DAY";
+		$stmt = $conn->prepare($sql_fallidos);
+		$stmt->bind_param("i", $id_usuario);
+		$stmt->execute();
+		$result_fallidos = $stmt->get_result();
+		$stmt->close();
+
+		$intentos_fallidos = $result_fallidos->fetch_assoc()['intentos'];
+		$mostrar_captcha = $intentos_fallidos >= $limite_intentos;
+
+		// Verificación de contraseña y CAPTCHA
+		if (password_verify($contrasenna, $contrasenna_almacenada) && (!$mostrar_captcha || (isset($_POST['g-recaptcha-response']) && validarCaptcha($_POST['g-recaptcha-response'])))) {
+		    $_SESSION['user_email'] = $email;
+		    $_SESSION['id'] = $id_usuario;
+
+		    // Limpiar intentos fallidos
+		    $sql_borrar_intentos = "DELETE FROM login_fallidos WHERE id_usuario = ?";
+		    $stmt = $conn->prepare($sql_borrar_intentos);
+		    $stmt->bind_param("i", $id_usuario);
+		    $stmt->execute();
+		    $stmt->close();
+
+		    header("Location: ../index.php");
+		    exit();
+		} else {
+		    // Registrar intento fallido
+		    $sql_insertar_fallido = "INSERT INTO login_fallidos (id_usuario, fecha) VALUES (?, NOW())";
+		    $stmt = $conn->prepare($sql_insertar_fallido);
+		    $stmt->bind_param("i", $id_usuario);
+		    $stmt->execute();
+		    $stmt->close();
+
+		    $_SESSION['error_message'] = "Credenciales incorrectas o CAPTCHA requerido.";
+		    $_SESSION['mostrar_captcha'] = $mostrar_captcha;
+		    header("Location: login.php");
+		    exit();
+		}
+	    } else {
+		$_SESSION['error_message'] = "Credenciales incorrectas.";
+		header("Location: login.php");
+		exit();
+	    }
 	}
 
-	// Cerrar la conexión
-	mysqli_close($conn);
+	$conn->close();
+
+	function validarCaptcha($captcha_response) {
+	    $secret_key = "TU_SECRET_KEY";
+	    $verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=$captcha_response");
+	    return json_decode($verify)->success;
+	}
 ?>
+
 

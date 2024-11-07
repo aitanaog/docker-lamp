@@ -5,10 +5,10 @@
 	session_start();
 	
 	// Conectar a la base de datos
-	$hostname = "db"; // Cambia por tu hostname
-	$username = "admin"; // Cambia por tu username
-	$password = "test"; // Cambia por tu password
-	$db = "database"; // Cambia por tu database name
+	$hostname = "db"; 
+	$username = "admin"; 
+	$password = "test"; 
+	$db = "database"; 
 
 	$conn = mysqli_connect($hostname, $username, $password, $db);
 	if ($conn->connect_error) {
@@ -16,31 +16,61 @@
 	}
 
 	// Recoger los datos del formulario
-	$nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
-	$cantante = mysqli_real_escape_string($conn, $_POST['cantante']);
-	$album = mysqli_real_escape_string($conn, $_POST['album']);
-	$genero = mysqli_real_escape_string($conn, $_POST['genero']);
-	$fecha_lanzamiento = mysqli_real_escape_string($conn, $_POST['fecha_lanzamiento']);
+	$nombre = htmlspecialchars(strip_tags($_POST['nombre']));
+	$cantante = htmlspecialchars(strip_tags($_POST['cantante']));
+	$album = htmlspecialchars(strip_tags($_POST['album']));
+	$genero = htmlspecialchars(strip_tags($_POST['genero']));
+	$fecha_lanzamiento = htmlspecialchars(strip_tags($_POST['fecha_lanzamiento']));
 
 	
-	//Verificar si cancion ya existe
-	$nombre_query = mysqli_query($conn, "SELECT * FROM canciones WHERE nombre_cancion='$nombre'");
-	if (mysqli_num_rows($nombre_query) > 0){
+	// Preparar las consultas SQL usando sentencias preparadas
+	
+	//CONSULTA 1: Verificar si cancion ya existe
+        $sql = "SELECT * FROM canciones WHERE nombre_cancion= ?";
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            die("Error en la preparación de la consulta: " . $conn->error);
+        }
+        
+        // Vincular los parámetros
+        $stmt->bind_param("s", $nombre);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+	$nombre_cancion= $stmt->get_result();
+	if ($nombre_cancion->num_rows > 0){
     		$_SESSION['error_message'] ="Esta canción ya está en la lista.";
     		header("Location:add_item.php"); 		
-        	exit(); 
-	}
+        	exit();
+        }
+        
+        // Cerrar la declaración
+        $stmt->close();
 
-	// Insertar los datos en la base de datos
+	//CONSULTA 2: Insertar los datos en la base de datos
 	$sql = "INSERT INTO canciones (nombre_cancion, cantante, genero_musical, album, fecha_lanzamiento)
-        VALUES ('$nombre','$cantante', '$album', '$genero', '$fecha_lanzamiento')";
+        VALUES (?,?,?,?,?)";
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            die("Error en la preparación de la consulta: " . $conn->error);
+        }
 
-	if (mysqli_query($conn, $sql)) {
+	// Vincular los parámetros
+        $stmt->bind_param("sssss", $nombre, $cantante, $album, $genero, $fecha_lanzamiento);
+        
+        // Ejecutar la consulta
+	if ($stmt->execute()) {
     		$_SESSION['error_message'] ="Canción añadida correctamente.";
-    		header("Location:add_item.php"); 		
+    		header("Location:add_item.php"); 
+    		exit();		
 	} else {
-    	echo "Error: " . mysqli_error($conn);
+    	    $_SESSION['error_message'] = "Error al añadir la canción: " . $stmt->error;
+    	    header("Location: add_item.php"); 
+    	    exit();
 	}
+	
+	// Cerrar la declaración
+        $stmt->close();
 
 	// Cerrar la conexión
 	mysqli_close($conn);
