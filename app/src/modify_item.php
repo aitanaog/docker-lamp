@@ -1,14 +1,14 @@
 <?php
 	session_start();
-	
+
 	// Generar un token CSRF si no existe en la sesión
 	if (empty($_SESSION['csrf_token'])) {
-	    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); 
+	    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 	}
 
 	// Obtener el token CSRF para incluirlo en el formulario
 	$csrf_token = $_SESSION['csrf_token'];
-	
+
 	echo '<head>';
 	    echo'<meta charset="UTF-8">  									
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +34,26 @@
 	  echo '<li style="display: inline; margin-right: 15px;"><a href="/src/modify_item.php">Modificar cancion</a></li>';
 	  echo '</ul>';
 	  echo '</nav>';
+	  
+	// Conexión a la base de datos
+	$hostname = "db";
+	$username = "admin";
+	$password = "test";
+	$db = "database";
 
+	$conn = mysqli_connect($hostname, $username, $password, $db);
+	if ($conn->connect_error) {
+	    die("Database connection failed: " . $conn->connect_error);
+	}
+
+	// Obtener la lista de canciones
+	$sql = "SELECT * FROM canciones";
+	$query = $conn->query($sql);
+
+	if ($query === false) {
+	    error_log("Error en la consulta SQL: " . $conn->error);
+	    echo "<p style='color: red;'>Ha ocurrido un error. Inténtalo de nuevo más tarde.</p>";
+	}
 
 	// Mostrar mensajes de estado
 	if (isset($_GET['msg'])) {
@@ -47,136 +66,83 @@
 	    }
 	}
 
-	// Conexión a la base de datos
-	$hostname = "db"; // Cambia por tu hostname
-	$username = "admin"; // Cambia por tu username
-	$password = "test"; // Cambia por tu password
-	$db = "database"; // Cambia por tu database name
-
-	$conn = mysqli_connect($hostname, $username, $password, $db);
-	if ($conn->connect_error) {
-	    		die("Database connection failed: " . $conn->connect_error);
-	}
-
-	// Obtener la lista de canciones
-	$sql = "SELECT * FROM canciones";
-	$query = $conn->query($sql);
-
-	if ($query === false) {
-	        error_log("Error en la consulta SQL: " . $conn->error);
-    		echo "<p style='color: red;'>Ha ocurrido un error. Inténtalo de nuevo más tarde.</p>";
-	}
-
-	// Contenedor principal
 	echo '<div class="container">';
-
-	// Contenedor de la tabla
 	echo '<div class="table-container">';
 	echo '<h2>Lista de Canciones</h2>';
 	echo '<table border="1">
-		<tr>
-		    <th>ID</th>
-		    <th>Nombre de la Canción</th>
-		    <th>Artista</th>
-		    <th>Acciones</th> <!-- Nueva columna para acciones -->
-		</tr>';
+	    <tr>
+		<th>ID</th>
+		<th>Nombre de la Canción</th>
+		<th>Artista</th>
+		<th>Acciones</th>
+	    </tr>';
 
 	// Iterar sobre los resultados
 	while ($row = $query->fetch_assoc()) {
 	    echo "<tr>
-		    <td>{$row['id']}</td>
-		    <td>{$row['nombre_cancion']}</td>
-		    <td>{$row['cantante']}</td>
-		    <td>
-		        <form method='GET' action='modify_item.php'>
-		            <input type='hidden' name='id' value='{$row['id']}'> <!-- ID de la canción -->
-		            <input type='submit' value='Modificar'>
-		        </form>
-		    </td>
-		  </tr>";
+		<td>{$row['id']}</td>
+		<td>{$row['nombre_cancion']}</td>
+		<td>{$row['cantante']}</td>
+		<td>
+		    <form method='GET' action='modify_item.php'>
+		        <input type='hidden' name='id' value='{$row['id']}'>
+		        <input type='submit' value='Modificar'>
+		    </form>
+		</td>
+	      </tr>";
 	}
 	echo '</table>';
 	echo '</div>'; // Cerrar contenedor de la tabla
 
-	// Contenedor del formulario
-	echo '<div class="form-container">';
-
-	// Mostrar formulario de modificación si se ha seleccionado una canción
+	// Mostrar formulario de modificación si se selecciona una canción
 	if (isset($_GET['id'])) {
 	    $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 	    if ($id === false) {
-    		die("ID inválido.");
-	     }
-	    
-	    // Preparar la consulta SQL usando sentencias preparadas
-	    // CONSULTA 1: Buscar la canción seleccionada en la base de datos
+		die("ID inválido.");
+	    }
+
 	    $sql = "SELECT * FROM canciones WHERE id = ?";
 	    $stmt = $conn->prepare($sql);
 	    if ($stmt === false) {
 		die("Error en la preparación de la consulta: " . $conn->error);
-	     }
-	     
-	    // Vincular los parámetros 
+	    }
+
 	    $stmt->bind_param("i", $id);
-	    
-	    // Ejecutar la consulta
 	    $stmt->execute();
-    	    $result = $stmt->get_result();
-    	    
-    	    if ($result->num_rows > 0) {
-        	$cancion_selec = $result->fetch_assoc();
-        	?>
-		<!DOCTYPE html>
-		<html lang="es">
-		<head>
-		    <meta charset="UTF-8">
-		    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		    <title>Modificar Canción</title>
-		    <script src="validation.js" defer></script>
-		</head>
-		<body>
+	    $result = $stmt->get_result();
+
+	    if ($result->num_rows > 0) {
+		$cancion_selec = $result->fetch_assoc();
+		?>
 		<form id="item_modify_form" method="POST" action="process_modify_item.php">
+		    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
 		    <input type="hidden" name="id" value="<?php echo $cancion_selec['id']; ?>">
 		    <label for="nombre_cancion">Nombre de la Canción:</label>
 		    <input type="text" id="nombre_cancion" name="nombre_cancion" value="<?php echo $cancion_selec['nombre_cancion']; ?>" required>
-		    <span>(Anterior: <?php echo $cancion_selec['nombre_cancion']; ?>)</span>
 		    <br>
 		    <label for="cantante">Artista:</label>
 		    <input type="text" id="cantante" name="cantante" value="<?php echo $cancion_selec['cantante']; ?>" required>
-		    <span>(Anterior: <?php echo $cancion_selec['cantante']; ?>)</span>
 		    <br>
 		    <label for="fecha_lanzamiento">Fecha de Lanzamiento:</label>
 		    <input type="date" id="fecha_lanzamiento" name="fecha_lanzamiento" value="<?php echo $cancion_selec['fecha_lanzamiento']; ?>" required>
-		    <span>(Anterior: <?php echo $cancion_selec['fecha_lanzamiento']; ?>)</span>
 		    <br>
 		    <label for="genero">Genero:</label>
 		    <input type="text" id="genero_musical" name="genero" value="<?php echo $cancion_selec['genero_musical']; ?>" required>
-		    <span>(Anterior: <?php echo $cancion_selec['genero_musical']; ?>)</span>
 		    <br>
 		    <label for="album">Álbum:</label>
 		    <input type="text" id="album" name="album" value="<?php echo $cancion_selec['album']; ?>" required>
-		    <span>(Anterior: <?php echo $cancion_selec['album']; ?>)</span>
-		    
-		    <!-- Token CSRF -->
-		    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
-
 		    <br>
-		    <!--<input type="submit" value="Modificar">!-->
 		    <button type="submit" id="item_modify_submit">Confirmar</button>
 		</form>
 		<?php
-    	    } else {
-        	echo "<p style='color: red;'>Canción no encontrada.</p>";
-            }
-            
-       	   // Cerrar la declaración
-       	   $stmt->close();
+	    } else {
+		echo "<p style='color: red;'>Canción no encontrada.</p>";
+	    }
+
+	    $stmt->close();
 	}
-
-
-	echo '</div>'; // Cerrar contenedor del formulario
-	echo '</div>'; // Cerrar contenedor principal
 
 	$conn->close();
 ?>
+
 

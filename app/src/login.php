@@ -41,6 +41,7 @@
 
 	    <h2>Inicio de Sesión</h2>
 	    <form id="login_form" action="process_login.php" method="POST">
+	    	<input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
 		<label for="email">Correo Electrónico:</label>
 		<input type="email" id="email" name="email" required>
 		<br>

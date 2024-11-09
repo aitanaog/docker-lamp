@@ -67,7 +67,7 @@
         }
         
         //Vincular los parámetros
-	stmt->bind_param("sssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $contrasenna);
+	$stmt->bind_param("sssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $contrasenna);
 
 	//Ejecutar la consulta
 	if ($stmt->execute()) {
@@ -79,4 +79,4 @@
 
 	// Cerrar la conexión
 	mysqli_close($conn);
-?>
+}

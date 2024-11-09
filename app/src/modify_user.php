@@ -136,6 +136,7 @@ echo '</div>'; // Cerrar contenedor de la tabla
 	echo '<div class="form-container">';
 	echo '<h2>Modificar Datos del Usuario</h2>';
 	echo '<form id="user_modify_form" method="POST" action="process_modify_user.php" style="display: none;">
+		<input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
         	<input type="hidden" name="field" id="field">
         	<label id="field_label"></label>
         	<input type="text" name="new_value" id="new_value" required>
