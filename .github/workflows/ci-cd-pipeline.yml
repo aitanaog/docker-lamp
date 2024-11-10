@@ -7,7 +7,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      # Instalar dependencias necesarias para PHP y JS
+      - name: Install dependencies
+        run: |
+          composer install --no-dev  # Instalar dependencias PHP de producción
+          npm install --production   # Instalar dependencias JS de producción
+
+      # Ejecutar pruebas automatizadas de PHP y JS
+      - name: Run PHP tests
+        run: |
+          phpunit --configuration phpunit.xml  # Ejecutar pruebas de PHP
+
+      - name: Run JS tests
+        run: |
+          npm test  # Ejecutar pruebas de JavaScript
+
+      # Verificar estándares de código y escaneo de seguridad
+      - name: Run code linter
+        run: |
+          phpcs --standard=PSR12 src  # Verificar estilo de código PHP
+          npm run lint  # Verificar estilo de código JS/TS
