@@ -32,7 +32,7 @@ jobs:
           npm run lint                           # Linter para JS/TS, si es necesario
 
       - name: Run Security Scan
-        uses: aquasecurity/trivy-action@v0.4.0   # Escaneo de vulnerabilidades
+        uses: aquasecurity/trivy-action@v0.11.1    # Escaneo de vulnerabilidades
         with:
           scan-type: 'filesystem'
           ignore-unfixed: true
