@@ -16,7 +16,6 @@ jobs:
       # Instalar dependencias necesarias para PHP y JS
       - name: Install dependencies
         run: |
-          composer install --no-dev  # Instalar dependencias PHP de producción
           npm install --production   # Instalar dependencias JS de producción
 
       # Ejecutar pruebas automatizadas de PHP y JS
