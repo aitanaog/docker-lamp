@@ -28,18 +28,19 @@ CREATE TABLE usuarios (
     telefono VARCHAR(15),
     fecha_nacimiento DATE,
     email VARCHAR(100) NOT NULL,
+    semilla Varchar(250) NOT NULL, 
     contrasenna VARCHAR(255) NOT NULL,
     PRIMARY KEY (id) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Inserción de datos para la tabla `usuarios`
-INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email, contrasenna) VALUES
-('Napoleon', 'Bonaparte', '12345678-A', '600123456', '1985-10-15', 'napoleon.bonaparte@example.com', 'gabacho'),
-('Elon', 'Musk', '12345678-B', '600987654', '1971-06-28', 'elon.musk@example.com', 'tesla'),
-('Taylor', 'Swift', '12345678-C', '600345678', '1989-12-13', 'taylor.swift@example.com', 'swiftie'),
-('Brad', 'Pitt', '12345678-D', '600456789', '1963-12-18', 'brad.pitt@example.com', 'angelina'),
-('Ariana', 'Grande', '12345678-E', '600567890', '1993-06-26', 'ariana.grande@example.com', 'handia'),
-('Dwayne', 'Johnson', '12345678-F', '600678901', '1972-05-02', 'dwayne.johnson@example.com', 'rock');
+INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email, semilla, contrasenna) VALUES
+('Napoleon', 'Bonaparte', '12345678-A', '600123456', '1985-10-15', 'napoleon.bonaparte@example.com', '1','gabacho'),
+('Elon', 'Musk', '12345678-B', '600987654', '1971-06-28', 'elon.musk@example.com','2', 'tesla'),
+('Taylor', 'Swift', '12345678-C', '600345678', '1989-12-13', 'taylor.swift@example.com','3', 'swiftie'),
+('Brad', 'Pitt', '12345678-D', '600456789', '1963-12-18', 'brad.pitt@example.com', '4', 'angelina'),
+('Ariana', 'Grande', '12345678-E', '600567890', '1993-06-26', 'ariana.grande@example.com','5', 'handia'),
+('Dwayne', 'Johnson', '12345678-F', '600678901', '1972-05-02', 'dwayne.johnson@example.com','6', 'rock');
 
 
 -- Estructura de tabla para la tabla `canciones`
