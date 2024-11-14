@@ -15,15 +15,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install php php-cli php-xml php-mbstring
 
-      - name: Install dependencies (Composer)
+      - name: Run PHP tests (usando PHPUnit)
         run: |
-          curl -sS https://getcomposer.org/installer | php
-          php composer.phar install  # Si usas Composer
+          # Si tienes un archivo de pruebas PHP, asegúrate de ejecutar PHPUnit
+          # Si ya tienes PHPUnit instalado globalmente, simplemente ejecútalo
+          # Si no, puedes descargar PHPUnit de la siguiente manera:
+          curl -sS https://phar.phpunit.de/phpunit.phar -o phpunit.phar
+          chmod +x phpunit.phar
+          ./phpunit.phar --configuration phpunit.xml  # O ajusta el comando si usas otro archivo de configuración
 
-      - name: Run PHP tests with PHPUnit
-        run: |
-          ./vendor/bin/phpunit  # Ejecutar las pruebas de PHP (usando PHPUnit)
-        
       - name: Run PHP code linter
         run: |
           curl -sS https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -o phpcs.phar
