@@ -10,15 +10,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Run JS tests
+      - name: Set up PHP
         run: |
-          npm test  # Ejecutar pruebas de JavaScript
+          sudo apt-get update
+          sudo apt-get install php php-cli php-xml php-mbstring
 
-      # Verificar estándares de código y escaneo de seguridad
-      - name: Run code linter
+      - name: Install dependencies (Composer)
         run: |
-          phpcs --standard=PSR12 src  # Verificar estilo de código PHP
-          npm run lint  # Verificar estilo de código JS/TS
+          curl -sS https://getcomposer.org/installer | php
+          php composer.phar install  # Si usas Composer
+
+      - name: Run PHP tests with PHPUnit
+        run: |
+          ./vendor/bin/phpunit  # Ejecutar las pruebas de PHP (usando PHPUnit)
+        
+      - name: Run PHP code linter
+        run: |
+          curl -sS https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -o phpcs.phar
+          php phpcs.phar --standard=PSR12 src  # Verificar estilo de código PHP
