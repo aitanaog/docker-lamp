@@ -9,7 +9,7 @@ echo '<head>';
   echo '<nav>';
   echo '<ul style="list-style-type: none; padding: 0;">';
   
-    if (isset($_SESSION['user_email'])) {
+    if (isset($_SESSION['email'])) {
         // La sesión está iniciada, el usuario está autenticado
         echo '<li style="display: inline; margin-right: 15px;"><a href="/src/logout.php">Cerrar Sesión</a></li>';
         echo '<li style="display: inline; margin-right: 15px;"><a href="/src/modify_user.php">Modificar perfil</a></li>';
