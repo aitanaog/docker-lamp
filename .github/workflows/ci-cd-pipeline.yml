@@ -1,30 +1,56 @@
+
+
+@@ -1,29 +1,29 @@
 name: Test
 
 on: push
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+	runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+   	 steps:
+    	  # 1. Checkout del código
+    	  - name: Checkout code
+     	   uses: actions/checkout@v4
+     	   
+     	   
+     	   
 
-      - name: Set up PHP
-        run: |
-          sudo apt-get update
-          sudo apt-get install php php-cli php-xml php-mbstring
-
-      - name: Run PHP tests (usando PHPUnit)
-        run: |
-          # Si tienes un archivo de pruebas PHP, asegúrate de ejecutar PHPUnit
-          # Si ya tienes PHPUnit instalado globalmente, simplemente ejecútalo
-          # Si no, puedes descargar PHPUnit de la siguiente manera:
-          curl -sS https://phar.phpunit.de/phpunit.phar -o phpunit.phar
-          chmod +x phpunit.phar
-          ./phpunit.phar --configuration phpunit.xml  # O ajusta el comando si usas otro archivo de configuración
-
-      - name: Run PHP code linter
-        run: |
-          curl -sS https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -o phpcs.phar
-          php phpcs.phar --standard=PSR12 src  # Verificar estilo de código PHP
+    	  # 2. Configuración de PHP
+	      - name: Set up PHP
+	        run: |
+	          sudo apt-get update
+	          sudo apt-get install -y php php-cli php-xml php-mbstring
+	          
+	          
+	          
+	          
+	
+	      # 3. Instalar Composer
+	      - name: Install Composer
+	        run: |
+	          curl -sS https://getcomposer.org/installer | php
+	          sudo mv composer.phar /usr/local/bin/composer
+	          
+	          
+	          
+	
+	      # 4. Instalar dependencias de Composer
+	      - name: Install dependencies (Composer)
+	        run: |
+	          composer install
+	          
+	       
+	
+	      # 5. Descargar PHPUnit (si no está instalado globalmente)
+	      - name: Install PHPUnit
+	        run: |
+	          curl -sS https://phar.phpunit.de/phpunit.phar -o phpunit.phar
+	          chmod +x phpunit.phar
+	          sudo mv phpunit.phar /usr/local/bin/phpunit
+	
+	      # 6. Ejecutar las pruebas con PHPUnit
+	      - name: Run PHP tests (usando PHPUnit)
+	        run: |
+	          php phpunit.phar --configuration phpunit.xml  # O simplemente usa "phpunit" si ya 	está en el $PATH	
