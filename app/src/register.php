@@ -84,8 +84,8 @@ $csrf_token = $_SESSION['csrf_token'];
 
         <!-- Contraseña -->
         <label for="contrasenna">Contraseña:</label>
-        <input type="password" id="contrasenna" name="contrasenna" placeholder="********" required>                
-        <span id="contrasenna_error" class="error"></span>
+        <input type="password" id="contrasenna" name="contrasenna" placeholder="********" required>
+        <span id="contrasenna_error" class="error"></span> <!-- Muestra los requisitos si la contraseña no cumple -->
         <br>
 
         <!-- Repite Contraseña -->

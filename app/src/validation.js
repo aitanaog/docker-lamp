@@ -61,6 +61,20 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('email_error').textContent = "";
         }
 
+       // Validación de contraseña
+       const contrasenna = document.getElementById('contrasenna').value;
+       const contrasennaError = document.getElementById('contrasenna_error');
+       const contrasennaValida = /^(?=.*[A-Z])(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{8,}$/;
+
+       if (!contrasennaValida.test(contrasenna)) {
+           valid = false;
+           contrasennaError.textContent = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un símbolo.";
+           contrasennaError.style.display = "block"; // Muestra el mensaje de error
+       } else {
+           contrasennaError.textContent = "";
+           contrasennaError.style.display = "none"; // Oculta el mensaje de error
+       }
+
         // Si alguna validación falla, se previene el envío del formulario
         if (!valid) {
             event.preventDefault();
