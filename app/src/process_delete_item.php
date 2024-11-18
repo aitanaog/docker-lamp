@@ -9,7 +9,7 @@ session_start();
 	// Conexión a la base de datos
 	$hostname = "db";  
 	$username = "admin";  
-	$password = "test";  
+	$password = "sgssi_proyecto";  
 	$db = "database";  
 
 	$conn = mysqli_connect($hostname, $username, $password, $db);
@@ -21,16 +21,16 @@ session_start();
 	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
 	    // Validar y sanitizar el ID para asegurarse de que es un número entero
 	    $id = filter_var($_POST["id"], FILTER_VALIDATE_INT);
-	    if ($id === false) {
+	    if ($id === false || $id <= 0) {
 		header("Location: delete_item.php?msg=invalid_id");
 		exit();
 	    }
 
 	    // Preparar la consulta SQL para eliminar la canción
-	    $sql = "DELETE FROM canciones WHERE id = ?";
+	    $sql = "DELETE FROM canciones WHERE id = ? LIMIT 1";
 	    $stmt = $conn->prepare($sql);
 	    if ($stmt === false) {
-		die("Error en la preparación de la consulta: " . $conn->error);
+		die("Error al procesar la solicitud " . $conn->error);
 	    }
 
 	    $stmt->bind_param("i", $id);

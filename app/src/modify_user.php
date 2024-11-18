@@ -36,7 +36,7 @@ echo '<head>';
 	// Conexión a la base de datos
 	$hostname = "db"; // Cambia por tu hostname
 	$username = "admin"; // Cambia por tu username
-	$password = "test"; // Cambia por tu password
+	$password = "sgssi_proyecto"; // Cambia por tu password
 	$db = "database"; // Cambia por tu database name
 
 	$conn = mysqli_connect($hostname, $username, $password, $db);

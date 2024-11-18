@@ -6,13 +6,13 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar el token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Error al procesar la solicitud: token CSRF no válido.");
+        die("Error al procesar la solicitud");
     }
 
     // Conectar a la base de datos
     $hostname = "db";
     $username = "admin";
-    $password = "test";
+    $password = "sgssi_proyecto";
     $db = "database";
 
     $conn = new mysqli($hostname, $username, $password, $db);
@@ -29,11 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_lanzamiento = htmlspecialchars(strip_tags($_POST['fecha_lanzamiento']));
 
     // Verificar si la canción ya existe
-    $sql = "SELECT * FROM canciones WHERE nombre_cancion = ?";
+    $sql = "SELECT * FROM canciones WHERE nombre_cancion = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . $conn->error);
+        die("Error al procesar la solicitud " . $conn->error);
     }
 
     $stmt->bind_param("s", $nombre);
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $_SESSION['error_message'] = "Esta canción ya está en la lista.";
+        $_SESSION['error_message'] = "Error al procesar la solicitud.";
         header("Location: add_item.php");
         exit();
     }
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
-        die("Error en la preparación de la consulta de inserción: " . $conn->error);
+        die("Error al procesar la solicitud " . $conn->error);
     }
 
     $stmt->bind_param("sssss", $nombre, $cantante, $genero, $album, $fecha_lanzamiento);
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         $_SESSION['error_message'] = "Canción añadida correctamente.";
     } else {
-        $_SESSION['error_message'] = "Error al añadir la canción: " . $stmt->error;
+        $_SESSION['error_message'] = "Error al procesar la solicitud" . $stmt->error;
     }
 
     // Cerrar las conexiones y redirigir

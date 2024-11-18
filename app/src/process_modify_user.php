@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Conexión a la base de datos
 $hostname = "db"; 
 $username = "admin"; 
-$password = "test"; 
+$password = "sgssi_proyecto"; 
 $db = "database"; 
 
 $conn = mysqli_connect($hostname, $username, $password, $db);
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Validar y obtener los datos del formulario
         if (!isset($_POST['field']) || !isset($_POST['new_value'])) {
-            die("Datos del formulario no recibidos.");
+            die("Error al procesar la solicitud");
         }
 
         $field = $_POST['field'];
@@ -39,14 +39,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Validar el campo
         $allowed_fields = ['nombre', 'apellidos', 'email', 'dni', 'telefono', 'fecha_nacimiento'];
         if (!in_array($field, $allowed_fields)) {
-            die("Campo no permitido.");
+            die("Error al procesar la solicitud");
         }
-
+        // Validar y sanitizar el valor de `new_value` según el tipo de campo
+        if ($field == 'email' && !filter_var($new_value, FILTER_VALIDATE_EMAIL)) {
+            die("Error al procesar la solicitud.");
+        } elseif ($field == 'dni' && !preg_match('/^[0-9]{8}[A-Za-z]$/', $new_value)) {
+            die("Error al procesar la solicitud.");
+        } elseif ($field == 'fecha_nacimiento' && !DateTime::createFromFormat('Y-m-d', $new_value)) 		{
+            die("Error al procesar la solicitud.");
+        }
         // CONSULTA1: obtener el ID del usuario por su email
         $sql = "SELECT id FROM usuarios WHERE email = ?";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
-            die("Error en la preparación de la consulta: " . $conn->error);
+            die("Error al procesar la solicitud " . $conn->error);
         }
 
         // Vincular el parámetro y ejecutar la consulta
@@ -57,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Verificar si se encontró al usuario
         if ($result->num_rows === 0) {
-            die("Usuario no encontrado.");
+            die("Error al procesar la solicitud");
         }
 
         $user = $result->fetch_assoc();
@@ -78,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "UPDATE usuarios SET $column = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
-            die("Error en la preparación de la consulta: " . $conn->error);
+            die("Error al procesar la solicitud" . $conn->error);
         }
 
         // Vincular los parámetros y ejecutar la consulta

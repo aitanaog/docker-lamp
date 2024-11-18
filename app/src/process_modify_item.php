@@ -5,7 +5,7 @@
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    // Validar el token CSRF
 	    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-		die("Error al procesar la solicitud: token CSRF no válido.");
+		die("Error al procesar la solicitud");
 	    }
 
 	    // Validar el ID de la canción
@@ -19,7 +19,7 @@
 		// Conexión a la base de datos
 		$hostname = "db";
 		$username = "admin";
-		$password = "test";
+		$password = "sgssi_proyecto";
 		$db = "database";
 
 		$conn = new mysqli($hostname, $username, $password, $db);
@@ -38,7 +38,7 @@
 		$sql = "UPDATE canciones SET nombre_cancion=?, cantante=?, album=?, genero_musical=?, fecha_lanzamiento=? WHERE id=?";
 		$stmt = $conn->prepare($sql);
 		if ($stmt === false) {
-		    die("Error en la preparación de la consulta: " . $conn->error);
+		    die("Error al procesar la solicitud" . $conn->error);
 		}
 
 		$stmt->bind_param("sssssi", $nombre, $cantante, $album, $genero, $fecha_lanzamiento, $id);

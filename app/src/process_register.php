@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Conectar a la base de datos
     $hostname = "db";
     $username = "admin";
-    $password = "test";
+    $password = "sgssi_proyecto";
     $db = "database";
 
     $conn = mysqli_connect($hostname, $username, $password, $db);
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar si las contraseñas coinciden
     if ($contrasenna !== $contrasenna2) {
-        $_SESSION['error_message'] = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+        $_SESSION['error_message'] = "Error al procesar la solicitud";
         header("Location: register.php");
         exit();
     }
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . $conn->error);
+        die("Error al procesar la solicitud" . $conn->error);
     }
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email, semilla, contrasenna) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . $conn->error);
+        die("Error al procesar la solicitud " . $conn->error);
     }
     $stmt->bind_param("ssssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $salt, $hash_contrasenna);
 

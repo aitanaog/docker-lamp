@@ -13,7 +13,7 @@
 // Conexión a la base de datos
 $hostname = "db"; 
 $username = "admin"; 
-$password = "test"; 
+$password = "sgssi_proyecto"; 
 $db = "database"; 
 
 $conn = mysqli_connect($hostname, $username, $password, $db);
