@@ -19,6 +19,8 @@ $csrf_token = $_SESSION['csrf_token'];
     <title>Registro de Usuario</title>
     <link rel="stylesheet" href="../css/styles.css"> <!-- CSS externo -->
     <script defer src="validation.js"></script> <!-- JavaScript externo -->
+    <!-- Agregar la librería de Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <?php
@@ -94,10 +96,12 @@ $csrf_token = $_SESSION['csrf_token'];
         <span id="contrasenna2_error" class="error"></span>
         <br>
 
+        <!-- reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6LcPen4qAAAAACFbC-izfYUSIAGsROZmClPTdifW"></div>
+        <br>
+
         <!-- Botón de envío -->
         <button type="submit" id="register_submit">Registrarse</button>
     </form>
 </body>
 </html>
-
-

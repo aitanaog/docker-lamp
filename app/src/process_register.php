@@ -2,6 +2,42 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar reCAPTCHA
+    $recaptcha_secret = '6LcPen4qAAAAAJN8fXyfrXjrgBj7KAX7F5KXw0gN'; 
+    $recaptcha_response = $_POST['g-recaptcha-response'];
+
+    // Verificar si el usuario completó el reCAPTCHA
+    if (empty($recaptcha_response)) {
+        $_SESSION['error_message'] = "Por favor completa el captcha.";
+        header("Location: register.php");
+        exit();
+    }
+
+    // Validar el token con la API de Google
+    $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+    $recaptcha_data = [
+        'secret' => $recaptcha_secret,
+        'response' => $recaptcha_response,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    ];
+
+    // Enviar la solicitud POST a Google
+    $curl = curl_init($recaptcha_url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($recaptcha_data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $recaptcha_verification = curl_exec($curl);
+    curl_close($curl);
+
+    $recaptcha_result = json_decode($recaptcha_verification, true);
+
+    // Verificar si el reCAPTCHA fue exitoso
+    if (!$recaptcha_result['success']) {
+        $_SESSION['error_message'] = "Verificación de captcha fallida. Intenta de nuevo.";
+        header("Location: register.php");
+        exit();
+    }
+
     // Verificación del token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("Error al procesar la solicitud.");
@@ -17,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$conn) {
         die("Error en la conexión a la base de datos: " . mysqli_connect_error());
     }
+
 
     // Recoger los datos del formulario
     $nombre = htmlspecialchars(strip_tags($_POST['nombre']));
