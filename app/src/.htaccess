@@ -1,0 +1,6 @@
+<Files "validation.js">
+    Require all denied
+    ErrorDocument 403 "Acceso no autorizado."
+</Files>
+
+
