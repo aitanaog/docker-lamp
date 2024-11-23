@@ -7,12 +7,12 @@
 
 	// Obtener el token CSRF para incluirlo en el formulario
 	$csrf_token = $_SESSION['csrf_token'];
-echo '<head>';
-   echo' <meta charset="UTF-8"> '; 									
+	echo '<head>';
+  	echo' <meta charset="UTF-8"> '; 									
     echo'<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-   echo' <title>localhost:81/modify_user?</title>';
-  echo '<script defer src="validation.js"></script> <!-- JavaScript externo -->';
-  echo '  <link rel="stylesheet" href="../css/styles.css">';
+   	echo' <title>localhost:81/modify_user?</title>';
+  	echo '<script defer src="validation.js"></script> <!-- JavaScript externo -->';
+  	echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';
 	// Iniciar la sesión
 	
@@ -30,9 +30,6 @@ echo '<head>';
 	  echo '</nav>';
 
 	
-	echo '</ul>';
-	echo '</nav>';
-	
 	// Conexión a la base de datos
 	$hostname = "db"; // Cambia por tu hostname
 	$username = "admin"; // Cambia por tu username
@@ -46,7 +43,7 @@ echo '<head>';
 
 	
 	// Obtener el ID del usuario registrado (asumiendo que está almacenado en la sesión)
-	$user_email = $_SESSION['user_email'];
+	$user_email = $_SESSION['email'];
 
 	// Preparar la consulta SQL usando sentencias preparadas
 	// CONSULTA 1: Obtener la información del usuario de la base de datos
@@ -72,7 +69,22 @@ echo '<head>';
         
         // Cerrar la declaración
        	$stmt->close();
-       	   	
+        
+        // Función para descifrar los datos
+        function decryptData($ciphertext) {
+            $key = 'clave_secreta_de_32_bytes__'; // Asegúrate de usar la misma clave que usaste para cifrar
+            $data = base64_decode($ciphertext);
+
+            $iv = substr($data, 0, openssl_cipher_iv_length('aes-256-cbc'));
+            $encryptedData = substr($data, openssl_cipher_iv_length('aes-256-cbc'));
+
+            return openssl_decrypt($encryptedData, 'aes-256-cbc', $key, 0, $iv);
+        }
+
+        // Descifrar los valores de telefono y dni
+        $decryptedTelefono = decryptData($user['telefono']);
+        $decryptedDni = decryptData($user['dni']);
+        
 	// Mostrar mensajes de estado
 	if (isset($_GET['msg'])) {
     		if ($_GET['msg'] == 'success') {
@@ -82,22 +94,22 @@ echo '<head>';
    		 }
 	}
 
-// Estilos CSS para el diseño de dos columnas
-echo '<style>
-.container {
-    display: flex;
-}
-.table-container {
-    flex: 1;
-}
-.form-container {
-    flex: 1;
-    padding-left: 20px;
-}
-</style>';
+	// Estilos CSS para el diseño de dos columnas
+	echo '<style>
+	.container {
+    	display: flex;
+	}
+	.table-container {
+    	flex: 1;
+	}
+	.form-container {
+    	flex: 1;
+    	padding-left: 20px;
+	}
+	</style>';
 
-// Contenedor principal
-echo '<div class="container">';
+	// Contenedor principal
+	echo '<div class="container">';
 
 	// Contenedor de la tabla
 	echo '<div class="table-container">';
@@ -121,11 +133,13 @@ echo '<div class="container">';
 	];
 
 	foreach ($fields as $field => $label) {
+   	 // Usamos los valores descifrados para dni y telefono
+   	 $value = ($field == 'telefono') ? $decryptedTelefono : ($field == 'dni' ? $decryptedDni : $user[$field]);
    	 echo "<tr>
             	<td>{$label}</td>
-            	<td id='{$field}_value'>{$user[$field]}</td>
+            	<td id='{$field}_value'>{$value}</td>
             	<td>
-                	<button onclick=\"showEditForm('{$field}', '{$user[$field]}')\">Editar</button>
+                	<button onclick=\"showEditForm('{$field}', '{$value}')\">Editar</button>
            	 </td>
           </tr>";
 	}
