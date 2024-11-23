@@ -54,7 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error en la conexión a la base de datos: " . mysqli_connect_error());
     }
 
-
     // Recoger los datos del formulario
     $nombre = htmlspecialchars(strip_tags($_POST['nombre']));
     $apellidos = htmlspecialchars(strip_tags($_POST['apellidos']));
@@ -84,11 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-		    // Registrar el error para revisión interna
-		    error_log("Error al procesar la solicitud: " . $conn->error);
-
-		    // Mostrar mensaje genérico al usuario
-		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
+        error_log("Error al procesar la solicitud: " . $conn->error);
+        die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     }
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -105,17 +101,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $salt = bin2hex(random_bytes(16));
     $hash_contrasenna = hash('sha256', $contrasenna . $salt);
 
+    // Cifrado de datos sensibles
+    $key = 'clave_secreta_de_32_bytes__';  // Clave secreta para AES-256-CBC
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    // Cifrar los datos
+    $encryptedTelefono = openssl_encrypt($telefono, 'aes-256-cbc', $key, 0, $iv);
+    $encryptedDni = openssl_encrypt($dni, 'aes-256-cbc', $key, 0, $iv);
+
+    // Almacenar el IV y el dato cifrado (en base64 para guardar en la base de datos)
+    $ciphertextTelefono = base64_encode($iv . $encryptedTelefono);
+    $ciphertextDni = base64_encode($iv . $encryptedDni);
+
     // Insertar los datos en la base de datos
     $sql = "INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email, semilla, contrasenna) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-		    // Registrar el error para revisión interna
-		    error_log("Error al procesar la solicitud: " . $conn->error);
-
-		    // Mostrar mensaje genérico al usuario
-		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
+        error_log("Error al procesar la solicitud: " . $conn->error);
+        die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     }
-    $stmt->bind_param("ssssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $salt, $hash_contrasenna);
+    $stmt->bind_param("ssssssss", $nombre, $apellidos, $ciphertextDni, $ciphertextTelefono, $fecha_nacimiento, $email, $salt, $hash_contrasenna);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Se ha registrado correctamente.";

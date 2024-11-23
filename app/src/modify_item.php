@@ -55,15 +55,15 @@
 	    echo "<p style='color: red;'>Ha ocurrido un error. Inténtalo de nuevo más tarde.</p>";
 	}
 
-	// Mostrar mensajes de estado
+	/// Mostrar mensajes de estado
 	if (isset($_GET['msg'])) {
-	    if ($_GET['msg'] == 'success') {
-		echo "<p style='color: green;'>Canción modificada con éxito.</p>";
-	    } elseif ($_GET['msg'] == 'error') {
-		echo "<p style='color: red;'>Error al procesar la solicitud." "</p>";
-	    } elseif ($_GET['msg'] == 'no_id') {
-		echo "<p style='color: orange;'>Error al procesar la solicitud.</p>";
-	    }
+    	if ($_GET['msg'] == 'success') {
+        	echo "<p style='color: green;'>Canción modificada con éxito.</p>";
+    	} elseif ($_GET['msg'] == 'error') {
+        	echo "<p style='color: red;'>Error al procesar la solicitud.</p>";
+    	} elseif ($_GET['msg'] == 'no_id') {
+        	echo "<p style='color: orange;'>Error al procesar la solicitud.</p>";
+    	}
 	}
 
 	echo '<div class="container">';
