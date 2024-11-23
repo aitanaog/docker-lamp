@@ -38,7 +38,11 @@
 		$sql = "UPDATE canciones SET nombre_cancion=?, cantante=?, album=?, genero_musical=?, fecha_lanzamiento=? WHERE id=?";
 		$stmt = $conn->prepare($sql);
 		if ($stmt === false) {
-		    die("Error al procesar la solicitud" . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
 		}
 
 		$stmt->bind_param("sssssi", $nombre, $cantante, $album, $genero, $fecha_lanzamiento, $id);

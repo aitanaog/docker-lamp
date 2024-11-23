@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$response_keys = json_decode($response, true);
 
 	if (!$response_keys["success"]) {
-    	$_SESSION['error_message'] = "Error al verificar CAPTCHA. Por favor, intente de nuevo.";
+    	$_SESSION['error_message'] = "Error al procesar la solicitud.";
     	header("Location: login.php");
     	exit();
 	}
@@ -50,7 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$sql = "SELECT id, semilla, contrasenna FROM usuarios WHERE email = ? LIMIT 1";
 	$stmt = $conn->prepare($sql);
 	if ($stmt === false) {
-    	die("Error al procesar la solicitud " . $conn->error);
+	    // Registrar el error para revisión interna
+	    error_log("Error al procesar la solicitud: " . $conn->error);
+
+	    // Mostrar mensaje genérico al usuario
+	    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
 	}
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
@@ -68,7 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     	$sql_fallidos = "SELECT COUNT(*) AS intentos FROM login_fallidos WHERE id_usuario = ? AND fecha > NOW() - INTERVAL 1 DAY";
     	$stmt = $conn->prepare($sql_fallidos);
     	if ($stmt === false) {
-        	die("Error al procesar la solicitud " . $conn->error);
+	    // Registrar el error para revisión interna
+	    error_log("Error al procesar la solicitud: " . $conn->error);
+
+	    // Mostrar mensaje genérico al usuario
+	    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     	}
     	$stmt->bind_param("i", $id_usuario);
     	$stmt->execute();
@@ -85,7 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         	$sql_borrar_intentos = "DELETE FROM login_fallidos WHERE id_usuario = ?";
         	$stmt = $conn->prepare($sql_borrar_intentos);
         	if ($stmt === false) {
-            	die("Error al procesar la solicitud " . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
         	}
         	$stmt->bind_param("i", $id_usuario);
         	$stmt->execute();
@@ -98,7 +110,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         	$sql_insertar_fallido = "INSERT INTO login_fallidos (id_usuario, fecha) VALUES (?, NOW())";
         	$stmt = $conn->prepare($sql_insertar_fallido);
         	if ($stmt === false) {
-            	die("Error al procesar la solicitud " . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
         	}
         	$stmt->bind_param("i", $id_usuario);
         	$stmt->execute();

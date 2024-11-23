@@ -84,7 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        die("Error al procesar la solicitud" . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     }
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -105,7 +109,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO usuarios (nombre, apellidos, dni, telefono, fecha_nacimiento, email, semilla, contrasenna) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        die("Error al procesar la solicitud " . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     }
     $stmt->bind_param("ssssssss", $nombre, $apellidos, $dni, $telefono, $fecha_nacimiento, $email, $salt, $hash_contrasenna);
 

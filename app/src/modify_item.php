@@ -51,7 +51,7 @@
 	$query = $conn->query($sql);
 
 	if ($query === false) {
-	    error_log("Error en la consulta SQL: " . $conn->error);
+	    error_log("Error al procesar la solicitud.");
 	    echo "<p style='color: red;'>Ha ocurrido un error. Inténtalo de nuevo más tarde.</p>";
 	}
 
@@ -60,9 +60,9 @@
 	    if ($_GET['msg'] == 'success') {
 		echo "<p style='color: green;'>Canción modificada con éxito.</p>";
 	    } elseif ($_GET['msg'] == 'error') {
-		echo "<p style='color: red;'>Error al modificar la canción: " . htmlspecialchars($_GET['error']) . "</p>";
+		echo "<p style='color: red;'>Error al procesar la solicitud." "</p>";
 	    } elseif ($_GET['msg'] == 'no_id') {
-		echo "<p style='color: orange;'>No se recibió el ID de la canción.</p>";
+		echo "<p style='color: orange;'>Error al procesar la solicitud.</p>";
 	    }
 	}
 

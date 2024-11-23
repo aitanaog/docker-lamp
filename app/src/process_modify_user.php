@@ -53,7 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "SELECT id FROM usuarios WHERE email = ?";
             $stmt = $conn->prepare($sql);
             if ($stmt === false) {
-                die("Error al procesar la solicitud " . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
             }
 
             // Vincular el parámetro y ejecutar la consulta
@@ -85,7 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "UPDATE usuarios SET $column = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
             if ($stmt === false) {
-                die("Error al procesar la solicitud" . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
             }
 
             // Vincular los parámetros y ejecutar la consulta

@@ -28,7 +28,7 @@ if (isset($_GET['msg'])) {
     } elseif ($_GET['msg'] == 'error') {
         echo "<p style='color: red;'>Error al eliminar la canción.</p>";
     } elseif ($_GET['msg'] == 'no_id') {
-        echo "<p style='color: orange;'>No se recibió el ID de la canción.</p>";
+        echo "<p style='color: orange;'>Error al procesar la solicitud.</p>";
     }
 }
 

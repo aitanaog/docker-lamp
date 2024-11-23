@@ -33,7 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
-        die("Error al procesar la solicitud " . $conn->error);
+ 		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     }
 
     $stmt->bind_param("s", $nombre);
@@ -52,7 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
-        die("Error al procesar la solicitud " . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
     }
 
     $stmt->bind_param("sssss", $nombre, $cantante, $genero, $album, $fecha_lanzamiento);
@@ -60,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         $_SESSION['error_message'] = "Canción añadida correctamente.";
     } else {
-        $_SESSION['error_message'] = "Error al procesar la solicitud" . $stmt->error;
+        $_SESSION['error_message'] = "Error al procesar la solicitud";
     }
 
     // Cerrar las conexiones y redirigir

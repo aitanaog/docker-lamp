@@ -30,7 +30,11 @@ session_start();
 	    $sql = "DELETE FROM canciones WHERE id = ? LIMIT 1";
 	    $stmt = $conn->prepare($sql);
 	    if ($stmt === false) {
-		die("Error al procesar la solicitud " . $conn->error);
+		    // Registrar el error para revisión interna
+		    error_log("Error al procesar la solicitud: " . $conn->error);
+
+		    // Mostrar mensaje genérico al usuario
+		    die("Error al procesar la solicitud. Por favor, inténtelo más tarde.");
 	    }
 
 	    $stmt->bind_param("i", $id);

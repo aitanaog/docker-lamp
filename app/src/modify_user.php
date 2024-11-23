@@ -53,7 +53,7 @@ echo '<head>';
 	$sql = "SELECT * FROM usuarios WHERE email = ?";
 	$stmt = $conn->prepare($sql);
 	if ($stmt === false) {
-	    die("Error en la preparación de la consulta: " . $conn->error);
+	    die("Error al procesar la solicitud.");
 	}
 	   
 	// Vincular los parámetros  
@@ -78,7 +78,7 @@ echo '<head>';
     		if ($_GET['msg'] == 'success') {
        			 echo "<p style='color: green;'>Datos del usuario modificados con éxito.</p>";
     		} elseif ($_GET['msg'] == 'error') {
-       			 echo "<p style='color: red;'>Error al modificar los datos del usuario: " . htmlspecialchars($_GET['error']) . "</p>";
+       			 echo "<p style='color: red;'>Error al procesar la solicitud." . htmlspecialchars($_GET['error']) . "</p>";
    		 }
 	}
 
