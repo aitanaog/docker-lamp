@@ -1,5 +1,9 @@
 <?php
-session_start();
+session_start([
+	'cookie_lifetime' => 86400,
+	'cookie_httponly' => true,
+	'cookie_secure' => true,
+]);
 
 	// Validar CSRF
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {

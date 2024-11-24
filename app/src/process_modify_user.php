@@ -1,9 +1,17 @@
 <?php
-session_start();
+session_start([
+	'cookie_lifetime' => 86400,
+	'cookie_httponly' => true,
+	'cookie_secure' => true,
+]);
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("Error al procesar la solicitud. TOKEN");
     }
+    
+    unset($_SESSION['csrf_token']);
 
     // Conexión a la base de datos
     $hostname = "db"; 

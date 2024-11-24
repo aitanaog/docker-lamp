@@ -1,6 +1,9 @@
 <?php
-	session_start();
-
+session_start([
+	'cookie_lifetime' => 86400,
+	'cookie_httponly' => true,
+	'cookie_secure' => true,
+]);
 	// Verificar que la solicitud sea POST
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    // Validar el token CSRF

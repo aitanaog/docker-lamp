@@ -7,6 +7,7 @@
 
 	// Obtener el token CSRF para incluirlo en el formulario
 	$csrf_token = $_SESSION['csrf_token'];
+
 	echo '<head>';
   	echo' <meta charset="UTF-8"> '; 									
     echo'<meta name="viewport" content="width=device-width, initial-scale=1.0">';
