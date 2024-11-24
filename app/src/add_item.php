@@ -1,6 +1,10 @@
 <?php
 	// Iniciar la sesión para acceder a $_SESSION
-	session_start();
+	session_start([
+		'cookie_lifetime' => 86400,
+		'cookie_httponly' => true,
+		'cookie_secure' => true,
+	]);
 
 	// Generar un token CSRF si no existe en la sesión
 	if (empty($_SESSION['csrf_token'])) {
@@ -16,7 +20,14 @@
 	<head>
 	    <meta charset="UTF-8">  
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>Añadir Canción</title>
+		<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline';
+               img-src 'self' http://localhost:81;
+               form-action 'self';">
+
+		<title>Añadir Canción</title>
 	    <link rel="stylesheet" href="../css/styles.css">
 	</head>
 	<body>

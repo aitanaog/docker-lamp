@@ -1,6 +1,10 @@
 <?php
 // Iniciar la sesión para almacenar el token CSRF
-session_start();
+session_start([
+	'cookie_lifetime' => 86400,
+	'cookie_httponly' => true,
+	'cookie_secure' => true,
+]);
 
 // Generar un token CSRF si no existe en la sesión
 if (empty($_SESSION['csrf_token'])) {
@@ -16,6 +20,7 @@ $csrf_token = $_SESSION['csrf_token'];
 <head>
     <meta charset="UTF-8">                                      
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"> <!-- No guardar en caché -->
     <title>Registro de Usuario</title>
     <link rel="stylesheet" href="../css/styles.css"> <!-- CSS externo -->
     <script defer src="validation.js"></script> <!-- JavaScript externo -->

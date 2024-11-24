@@ -1,7 +1,10 @@
 <?php
 	// Iniciar la sesión para acceder a $_SESSION
-	session_start();
-
+    session_start([
+        'cookie_lifetime' => 86400,
+        'cookie_httponly' => true,
+        'cookie_secure' => true,
+    ]);
 	// Generar un token CSRF si no existe en la sesión
 	if (empty($_SESSION['csrf_token'])) {
 	    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio de 32 bytes
@@ -42,6 +45,12 @@ $query = mysqli_query($conn, "SELECT * FROM canciones") or die(mysqli_error($con
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline';
+               img-src 'self' ;
+               form-action 'self';">
     <title>Eliminar Canción</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>

@@ -1,5 +1,9 @@
 <?php
-	session_start();
+	session_start([
+		'cookie_lifetime' => 86400,
+		'cookie_httponly' => true,
+		'cookie_secure' => true,
+	]);
 
 	// Generar un token CSRF si no existe en la sesión
 	if (empty($_SESSION['csrf_token'])) {

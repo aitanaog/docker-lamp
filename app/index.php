@@ -1,5 +1,20 @@
 <?php
-session_start();
+session_start();?>
+
+<html>
+<head>
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline';
+               img-src 'self' ;
+               form-action 'self';">
+    
+</head>
+
+
+
+<?php
 echo '<head>';
   echo '  <link rel="stylesheet" href="../css/styles.css">';
     echo '</head>';

@@ -3,4 +3,22 @@
     ErrorDocument 403 "Acceso no autorizado."
 </Files>
 
+<IfModule mod_headers.c>
 
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+Header always set X-XSS-Protection "1; mode=block"
+
+Header always set X-Content-Type-Options "nosniff"
+
+Header set X-Frame-Options "DENY"
+
+Header always set Referrer-Policy "no-referrer"
+
+Header always set Expect-CT "enforce, max-age=86400"
+
+</IfModule>
+
+<Files .htaccess>
+    Require all denied
+</Files>

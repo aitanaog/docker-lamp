@@ -1,5 +1,9 @@
 <?php
-	session_start();
+	session_start([
+		'cookie_lifetime' => 86400,
+		'cookie_httponly' => true,
+		'cookie_secure' => true,
+	]);
 
 	// Restablecer CAPTCHA si es una sesión nueva o no está configurado
 	if (!isset($_SESSION['mostrar_captcha'])) {
@@ -20,7 +24,8 @@
 <head>
     <meta charset="UTF-8">  									
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesión</title>
+    
+	<title>Inicio de Sesión</title>
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script> <!-- Script de reCAPTCHA -->
 </head>

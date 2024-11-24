@@ -1,5 +1,9 @@
 <?php
-	session_start();
+	session_start([
+	'cookie_lifetime' => 86400,
+	'cookie_httponly' => true,
+	'cookie_secure' => true,
+]);
 	echo '<head>';
 	   echo' <meta charset="UTF-8">';								
 	    echo'<meta name="viewport" content="width=device-width, initial-scale=1.0">';
